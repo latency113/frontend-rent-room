@@ -1,4 +1,5 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3002';
+const rawBase = import.meta.env.VITE_API_URL || 'http://localhost:3002';
+const API_BASE = rawBase.replace(/\/+$/, '');
 
 export async function apiRequest<T = any>(
   endpoint: string,
@@ -14,7 +15,8 @@ export async function apiRequest<T = any>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const url = `${API_BASE}${endpoint}`;
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE}${cleanEndpoint}`;
 
   try {
     const res = await fetch(url, {
