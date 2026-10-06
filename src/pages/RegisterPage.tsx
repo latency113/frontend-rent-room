@@ -61,7 +61,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) =
     setIsSubmitting(true);
     const loadingToast = toast.loading('กำลังส่งคำขอสมัครสมาชิก...');
 
-    const selectedDept = DEPARTMENTS.find(d => d.id === departmentId)?.name || 'ฝ่ายบริหารและเทคโนโลยี';
+    const selectedDept = departments.find(d => Number(d.id) === Number(departmentId))?.name || '';
 
     const res = await register({
       first_name: firstName.trim(),

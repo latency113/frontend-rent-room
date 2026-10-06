@@ -71,7 +71,7 @@ const RootLayout: React.FC = () => {
             closeModal();
             const role = String(loggedInUser?.role || user?.role || '').toLowerCase();
             if (role === 'admin') {
-              navigate({ to: '/admin' as any });
+              navigate({ to: '/admin/bookings' as any });
             }
           }}
         />
@@ -102,7 +102,7 @@ const IndexRedirectComponent: React.FC = () => {
         }
       }
       if (isAdmin) {
-        navigate({ to: '/admin' as any, replace: true });
+        navigate({ to: '/admin/bookings' as any, replace: true });
         return;
       }
     } catch {
@@ -181,11 +181,54 @@ const myBookingsRoute = createRoute({
   component: MyBookingsPage
 });
 
-// 10. Admin Route (/admin)
+// 10. Admin Routes - Separate page routes for each section
+const AdminRedirectComponent: React.FC = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate({ to: '/admin/bookings' as any, replace: true });
+  }, [navigate]);
+  return (
+    <div className="py-24 text-center">
+      <div className="w-8 h-8 border-2 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+      <p className="text-xs text-slate-400">กำลังนำคุณไปยังหน้ารายการคำขอจองห้อง...</p>
+    </div>
+  );
+};
+
 const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin',
-  component: AdminDashboardPage
+  component: AdminRedirectComponent
+});
+
+const adminBookingsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/bookings',
+  component: () => <AdminDashboardPage defaultTab="requests" />
+});
+
+const adminUsersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/users',
+  component: () => <AdminDashboardPage defaultTab="users" />
+});
+
+const adminDepartmentsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/departments',
+  component: () => <AdminDashboardPage defaultTab="departments" />
+});
+
+const adminRoomsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/rooms',
+  component: () => <AdminDashboardPage defaultTab="rooms" />
+});
+
+const adminReportsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/reports',
+  component: () => <AdminDashboardPage defaultTab="reports" />
 });
 
 // 11. Login Route (/login)
@@ -237,6 +280,11 @@ const routeTree = rootRoute.addChildren([
   calendarRoute,
   myBookingsRoute,
   adminRoute,
+  adminBookingsRoute,
+  adminUsersRoute,
+  adminDepartmentsRoute,
+  adminRoomsRoute,
+  adminReportsRoute,
   loginRoute,
   registerRoute
 ]);

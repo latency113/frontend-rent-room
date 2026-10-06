@@ -236,7 +236,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           {/* Email */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">
-              อีเมล (Username) <span className="text-red-500">*</span>
+              อีเมล (Email) <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <Mail size={14} className="absolute left-3 top-3 text-slate-400" />
@@ -326,24 +326,24 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setRole('USER')}
-                  className={`flex-1 py-2 px-3 text-xs font-semibold rounded-sm border transition-all cursor-pointer ${
+                  className={`flex-1 py-2.5 px-3 text-xs font-semibold rounded-sm border transition-all cursor-pointer ${
                     role === 'USER'
                       ? 'bg-purple-50 border-purple-500 text-purple-700'
                       : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
-                  ผู้ใช้ทั่วไป (User)
+                  ผู้ใช้ทั่วไป
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('ADMIN')}
-                  className={`flex-1 py-2 px-3 text-xs font-semibold rounded-sm border transition-all cursor-pointer ${
+                  className={`flex-1 py-2.5 px-3 text-xs font-semibold rounded-sm border transition-all cursor-pointer ${
                     role === 'ADMIN'
                       ? 'bg-purple-600 border-purple-600 text-white shadow-sm'
                       : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
-                  ผู้ดูแลระบบ (Admin)
+                  ผู้ดูแลระบบ
                 </button>
               </div>
             </div>

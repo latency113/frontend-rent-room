@@ -167,3 +167,24 @@ export async function errorAlert(title: string, text?: string): Promise<void> {
     },
   });
 }
+
+/**
+ * Modern Warning Alert Modal
+ */
+export async function warningAlert(title: string, text?: string): Promise<void> {
+  await baseSwal.fire({
+    icon: 'warning',
+    title,
+    text,
+    confirmButtonText: 'รับทราบ',
+    customClass: {
+      popup: 'swal2-custom-popup',
+      title: 'swal2-custom-title',
+      htmlContainer: 'swal2-custom-html',
+      confirmButton: 'swal2-custom-confirm-btn',
+      actions: 'swal2-custom-actions',
+      icon: 'swal2-custom-icon',
+    },
+  });
+}
+

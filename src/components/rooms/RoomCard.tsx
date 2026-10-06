@@ -51,7 +51,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
 
         {/* Status Pill */}
         <div className="absolute top-3.5 left-3.5">
-          {room.is_active ? (
+          {(room.status !== undefined ? Number(room.status) === 1 : room.is_active) ? (
             <span className="bg-emerald-500/90 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               พร้อมใช้งาน
@@ -186,20 +186,26 @@ export const RoomCard: React.FC<RoomCardProps> = ({
               )}
             </div>
 
-            {/* Book Room Button */}
-            <button
-              onClick={() => onBook(room)}
-              disabled={!room.is_active}
-              style={{ minHeight: '36px' }}
-              className={`px-3.5 py-2 rounded-sm text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                room.is_active
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20 hover:shadow-blue-500/30'
-                  : 'bg-slate-100 text-slate-400 cursor-not-allowed'
-              }`}
-            >
-              <Calendar size={14} />
-              <span>{room.is_active ? 'จองห้องนี้' : 'ปิดปรับปรุง'}</span>
-            </button>
+            {/* Book Room Button (Only for regular users) */}
+          {(() => {
+            if (isAdmin) return null;
+            const isAvailable = room.status !== undefined ? Number(room.status) === 1 : room.is_active;
+            return (
+              <button
+                onClick={() => onBook(room)}
+                disabled={!isAvailable}
+                style={{ minHeight: '36px' }}
+                className={`px-3.5 py-2 rounded-sm text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                  isAvailable
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20 hover:shadow-blue-500/30'
+                    : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                }`}
+              >
+                <Calendar size={14} />
+                <span>{isAvailable ? 'จองห้องนี้' : 'ปิดปรับปรุง'}</span>
+              </button>
+            );
+          })()}
           </div>
         </div>
       </div>

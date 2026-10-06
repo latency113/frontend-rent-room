@@ -17,7 +17,8 @@ import {
   FileText,
   Plus,
   Minus,
-  Check
+  Check,
+  Shield
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate, useSearch } from '@tanstack/react-router';
@@ -50,6 +51,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
   onViewRoomDetail
 }) => {
   const { user } = useAuth();
+  const isAdmin = String(user?.role || '').toLowerCase() === 'admin';
   const { openLogin } = useAuthModal();
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { roomId?: string; bookingId?: string; date?: string };
@@ -67,12 +69,15 @@ export const BookingPage: React.FC<BookingPageProps> = ({
         if (res.success && res.data) {
           setRooms(res.data);
         }
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }, [propAllRooms]);
 
+  // Helper to normalize room ID (strip quotes or extra spaces)
+  const normalizeId = (id?: any) => (id !== undefined && id !== null ? String(id).replace(/^["']|["']$/g, '').trim() : '');
+
   // Selected Room
-  const initialRoomId = String(
+  const initialRoomId = normalizeId(
     propEditingBooking?.room_id ||
     search.roomId ||
     propInitialRoom?.id ||
@@ -83,11 +88,12 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
   useEffect(() => {
     if (search.roomId) {
-      setSelectedRoomId(String(search.roomId));
+      setSelectedRoomId(normalizeId(search.roomId));
     }
   }, [search.roomId]);
 
-  const selectedRoom = rooms.find(r => String(r.id) === selectedRoomId || String(r.room_id) === selectedRoomId) || propInitialRoom || rooms[0];
+  const cleanSelectedId = normalizeId(selectedRoomId);
+  const selectedRoom = rooms.find(r => normalizeId(r.id) === cleanSelectedId || normalizeId(r.room_id) === cleanSelectedId) || propInitialRoom || rooms[0];
 
   // Booking Form State
   const [title, setTitle] = useState(propEditingBooking?.title || '');
@@ -128,7 +134,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             setSelectedRoomId(String(found.room_id));
           }
         }
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }, [propEditingBooking, search.bookingId]);
 
@@ -201,7 +207,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
     } else {
       setEquipmentSelections([]);
     }
-  }, [selectedRoomId, editingBooking]);
+  }, [selectedRoom, selectedRoomId, editingBooking]);
 
   const toggleEquipmentSelect = (equipment_id: number) => {
     setEquipmentSelections(prev =>
@@ -215,7 +221,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({
     setEquipmentSelections(prev =>
       prev.map(eq => {
         if (eq.equipment_id === equipment_id) {
-          const newQty = Math.max(1, eq.requested_quantity + delta);
+          const currentQty = eq.selected ? (eq.requested_quantity || 1) : 0;
+          const newQty = Math.max(1, currentQty + delta);
           return { ...eq, requested_quantity: newQty, selected: true };
         }
         return eq;
@@ -223,35 +230,104 @@ export const BookingPage: React.FC<BookingPageProps> = ({
     );
   };
 
+  const handleQuantityInput = (equipment_id: number, rawVal: string) => {
+    if (rawVal === '') {
+      setEquipmentSelections(prev =>
+        prev.map(eq =>
+          eq.equipment_id === equipment_id
+            ? { ...eq, requested_quantity: 0, selected: true }
+            : eq
+        )
+      );
+      return;
+    }
+    const val = parseInt(rawVal, 10);
+    if (!isNaN(val)) {
+      setEquipmentSelections(prev =>
+        prev.map(eq =>
+          eq.equipment_id === equipment_id
+            ? { ...eq, requested_quantity: Math.max(0, val), selected: true }
+            : eq
+        )
+      );
+    }
+  };
+
+  const handleQuantityBlur = (equipment_id: number) => {
+    setEquipmentSelections(prev =>
+      prev.map(eq =>
+        eq.equipment_id === equipment_id
+          ? { ...eq, requested_quantity: Math.max(1, eq.requested_quantity || 1) }
+          : eq
+      )
+    );
+  };
+
+  // Room recent bookings schedule
+  const [roomBookings, setRoomBookings] = useState<Booking[]>([]);
+  const [isLoadingBookings, setIsLoadingBookings] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!selectedRoom) return;
+    const fetchRoomSchedule = async () => {
+      setIsLoadingBookings(true);
+      try {
+        const roomIdStr = String(selectedRoom.room_id || selectedRoom.id);
+        const res = await bookingsApi.getAll({ room_id: roomIdStr });
+        if (res.success && res.data) {
+          const sorted = [...res.data]
+            .filter(b => (b.status || '').toUpperCase() !== 'CANCELLED' && (b.status || '').toUpperCase() !== 'REJECTED')
+            .sort((a, b) => {
+              const dateA = a.booking_date || '';
+              const dateB = b.booking_date || '';
+              if (dateA !== dateB) return dateB.localeCompare(dateA);
+              return (b.start_time || '').localeCompare(a.start_time || '');
+            });
+          setRoomBookings(sorted.slice(0, 5));
+        } else {
+          const calRes = await bookingsApi.getCalendar(roomIdStr);
+          if (calRes.success && calRes.data) {
+            const sorted = [...calRes.data]
+              .filter(b => (b.status || '').toUpperCase() !== 'CANCELLED' && (b.status || '').toUpperCase() !== 'REJECTED')
+              .sort((a, b) => {
+                const dateA = a.booking_date || '';
+                const dateB = b.booking_date || '';
+                if (dateA !== dateB) return dateB.localeCompare(dateA);
+                return (b.start_time || '').localeCompare(a.start_time || '');
+              });
+            setRoomBookings(sorted.slice(0, 5));
+          }
+        }
+      } catch {
+        // ignore
+      } finally {
+        setIsLoadingBookings(false);
+      }
+    };
+    fetchRoomSchedule();
+  }, [selectedRoom?.id, selectedRoom?.room_id, selectedRoomId]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (isAdmin) {
+      const msg = 'ผู้ดูแลระบบ (Admin) ไม่สามารถจองห้องประชุมได้ ระบบสงวนสิทธิ์สำหรับผู้ใช้งานทั่วไปเท่านั้น';
+      setError(msg);
+      toast.error(msg);
+      return;
+    }
 
     if (!title.trim()) {
       setError('กรุณาระบุหัวข้อการประชุม');
       toast.error('กรุณาระบุหัวข้อการประชุม');
       return;
     }
-    if (!bookerName.trim()) {
-      setError('กรุณาระบุชื่อผู้จอง');
-      toast.error('กรุณาระบุชื่อผู้จอง');
-      return;
-    }
-    if (!department.trim()) {
-      setError('กรุณาระบุแผนกของผู้จอง');
-      toast.error('กรุณาระบุแผนกของผู้จอง');
-      return;
-    }
-    if (!phone.trim()) {
-      setError('กรุณาระบุเบอร์โทรศัพท์ติดต่อ');
-      toast.error('กรุณาระบุเบอร์โทรศัพท์ติดต่อ');
-      return;
-    }
-    if (!email.trim()) {
-      setError('กรุณาระบุอีเมล');
-      toast.error('กรุณาระบุอีเมล');
-      return;
-    }
+
+    const effectiveBookerName = bookerName.trim() || user?.name || (user ? `${user.first_name || ''} ${user.last_name || ''}`.trim() : '') || 'ผู้ขอจอง';
+    const effectiveDepartment = department.trim() || user?.department || 'ฝ่ายทั่วไป';
+    const effectivePhone = phone.trim() || user?.phone || '0800000000';
+    const effectiveEmail = email.trim() || user?.email || (user as any)?.username || 'user@example.com';
     const today = getTodayString();
     if (bookingDate < today) {
       const msg = 'ไม่สามารถจองห้องประชุมย้อนหลังได้ กรุณาเลือกวันปัจจุบันหรือวันข้างหน้า';
@@ -278,6 +354,17 @@ export const BookingPage: React.FC<BookingPageProps> = ({
       toast.error('เวลาเริ่มต้นต้องมาก่อนเวลาสิ้นสุดเสมอ');
       return;
     }
+    const isSelectedRoomAvailable = selectedRoom
+      ? (selectedRoom.status !== undefined ? Number(selectedRoom.status) === 1 : (selectedRoom.is_active !== false))
+      : true;
+
+    if (selectedRoom && !isSelectedRoomAvailable) {
+      const msg = `ห้องประชุม "${selectedRoom.name || selectedRoom.room_name}" อยู่ในสถานะปิดปรับปรุง ไม่สามารถทำการจองได้`;
+      setError(msg);
+      toast.error(msg);
+      return;
+    }
+
     if (selectedRoom && attendeesCount > selectedRoom.capacity) {
       const msg = `จำนวนผู้เข้าร่วม (${attendeesCount} คน) เกินความจุของห้อง ${selectedRoom.name} (${selectedRoom.capacity} ที่นั่ง)`;
       setError(msg);
@@ -293,7 +380,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
     const selectedEquipmentNames = selectedList.map(eq => eq.equipment_name);
     const requestedEquipments = selectedList.map(eq => ({
       equipment_id: eq.equipment_id,
-      requested_quantity: eq.requested_quantity
+      requested_quantity: Math.max(1, eq.requested_quantity || 1)
     }));
 
     try {
@@ -323,11 +410,11 @@ export const BookingPage: React.FC<BookingPageProps> = ({
         const res = await bookingsApi.create({
           room_id: selectedRoomId,
           title,
-          booker_name: bookerName,
-          department,
+          booker_name: effectiveBookerName,
+          department: effectiveDepartment,
           branch,
-          phone,
-          email,
+          phone: effectivePhone,
+          email: effectiveEmail,
           booking_date: bookingDate,
           start_time: startTime,
           end_time: endTime,
@@ -373,6 +460,34 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             className="px-5 py-2.5 rounded-sm bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-500/25 transition-all cursor-pointer"
           >
             เข้าสู่ระบบทันที
+          </button>
+          <button
+            onClick={handleBack}
+            className="px-4 py-2.5 rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
+          >
+            ย้อนกลับ
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAdmin) {
+    return (
+      <div className="max-w-lg mx-auto bg-white rounded-md border border-amber-200/80 p-8 sm:p-12 text-center shadow-xs animate-fadeIn my-12">
+        <div className="w-16 h-16 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4">
+          <Shield size={32} />
+        </div>
+        <h2 className="text-xl font-bold text-slate-900 mb-2">บัญชีผู้ดูแลระบบ (Admin)</h2>
+        <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
+          ผู้ดูแลระบบไม่สามารถทำการจองห้องประชุมได้ เนื่องจากระบบสงวนสิทธิ์การส่งคำขอจองห้องประชุมสำหรับผู้ใช้งานทั่วไปเท่านั้น
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <button
+            onClick={() => navigate({ to: '/admin/bookings' })}
+            className="px-5 py-2.5 rounded-sm bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-500/25 transition-all cursor-pointer"
+          >
+            ไปหน้ารายการคำขอจอง (Admin)
           </button>
           <button
             onClick={handleBack}
@@ -440,16 +555,6 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             กรอกข้อมูลรายละเอียดการประชุม เลือกระบุอุปกรณ์ประจำห้องที่ต้องการใช้ และส่งคำขอเพื่อรอ Admin อนุมัติ
           </p>
         </div>
-
-        {selectedRoom && (
-          <button
-            type="button"
-            className="px-4 py-2 rounded-sm text-xs sm:text-sm font-semibold bg-white hover:bg-slate-50 text-blue-950 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
-            onClick={() => handleViewDetail(selectedRoom)}
-          >
-            <span>ดูข้อมูลห้องนี้</span>
-          </button>
-        )}
       </div>
 
       {error && (
@@ -478,16 +583,34 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">ห้องประชุม *</label>
               <select
                 className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all cursor-pointer font-medium"
-                value={selectedRoomId}
-                onChange={(e) => setSelectedRoomId(e.target.value)}
+                value={selectedRoom ? String(selectedRoom.id || selectedRoom.room_id) : selectedRoomId}
+                onChange={(e) => setSelectedRoomId(normalizeId(e.target.value))}
                 required
               >
-                {rooms.map((r: Room) => (
-                  <option key={r.id || r.room_id} value={String(r.id || r.room_id)}>
-                    {r.name || r.room_name} ({r.code || `MR-${r.room_id || r.id}`}) — ความจุ {r.capacity} ที่นั่ง, {r.location_detail || r.floor || 'ชั้น 1'}
-                  </option>
-                ))}
+                {rooms.map((r: Room) => {
+                  const isAvailable = r.status !== undefined ? Number(r.status) === 1 : (r.is_active !== false);
+                  return (
+                    <option key={r.id || r.room_id} value={String(r.id || r.room_id)} disabled={!isAvailable}>
+                      {r.name || r.room_name} ({r.code || `MR-${r.room_id || r.id}`}) — ความจุ {r.capacity} ที่นั่ง, {r.location_detail || r.floor || 'ชั้น 1'} {!isAvailable ? ' [ปิดปรับปรุง - ไม่สามารถจองได้]' : ''}
+                    </option>
+                  );
+                })}
               </select>
+
+              {(() => {
+                const isAvailable = selectedRoom ? (selectedRoom.status !== undefined ? Number(selectedRoom.status) === 1 : (selectedRoom.is_active !== false)) : true;
+                if (!isAvailable) {
+                  return (
+                    <div className="p-3.5 rounded-sm bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2.5 mt-2.5">
+                      <AlertCircle size={18} className="shrink-0 text-rose-600" />
+                      <div>
+                        <span className="font-bold">ห้องนี้อยู่ในสถานะปิดปรับปรุง:</span> ไม่สามารถทำรายการจองได้ในขณะนี้ กรุณาเปลี่ยนเป็นห้องประชุมอื่นที่พร้อมใช้งาน
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
             </div>
 
             <div>
@@ -608,11 +731,10 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                 {equipmentSelections.map((eq) => (
                   <div
                     key={eq.equipment_id}
-                    className={`p-3.5 rounded-sm border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                      eq.selected
+                    className={`p-3.5 rounded-sm border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${eq.selected
                         ? 'bg-emerald-50/60 border-emerald-300/80 shadow-xs'
                         : 'bg-slate-50/70 border-slate-200/70 hover:bg-slate-50'
-                    }`}
+                      }`}
                   >
                     {/* Checkbox & Equipment Name */}
                     <div
@@ -622,7 +744,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                       <input
                         type="checkbox"
                         checked={eq.selected}
-                        onChange={() => {}}
+                        onChange={() => { }}
                         className="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer"
                       />
                       <div>
@@ -635,26 +757,44 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                       </div>
                     </div>
 
-                    {/* Quantity Stepper */}
+                    {/* Quantity Stepper & Direct Input */}
                     <div className="flex items-center gap-2 self-end sm:self-center">
                       <span className="text-xs text-slate-500 font-medium">จำนวนที่ขอใช้:</span>
-                      <div className="flex items-center bg-white border border-slate-200 rounded-sm overflow-hidden shadow-xs">
+                      <div className={`flex items-center bg-white border ${eq.selected ? 'border-emerald-300 ring-1 ring-emerald-500/20' : 'border-slate-200'} rounded-sm overflow-hidden shadow-xs transition-colors`}>
                         <button
                           type="button"
-                          disabled={!eq.selected || eq.requested_quantity <= 1}
+                          disabled={!eq.selected || (eq.requested_quantity || 1) <= 1}
                           onClick={() => updateQuantity(eq.equipment_id, -1)}
-                          className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                          className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                          title="ลดจำนวน"
                         >
                           <Minus size={13} />
                         </button>
-                        <span className="px-3 text-xs font-bold text-slate-800 min-w-[28px] text-center">
-                          {eq.selected ? eq.requested_quantity : 0}
-                        </span>
+                        <input
+                          type="number"
+                          min={1}
+                          value={eq.selected ? (eq.requested_quantity === 0 ? '' : eq.requested_quantity) : 0}
+                          onFocus={() => {
+                            if (!eq.selected) {
+                              setEquipmentSelections(prev =>
+                                prev.map(item =>
+                                  item.equipment_id === eq.equipment_id
+                                    ? { ...item, selected: true, requested_quantity: item.requested_quantity || 1 }
+                                    : item
+                                )
+                              );
+                            }
+                          }}
+                          onChange={(e) => handleQuantityInput(eq.equipment_id, e.target.value)}
+                          onBlur={() => handleQuantityBlur(eq.equipment_id)}
+                          className="w-14 text-center text-xs font-bold text-slate-800 bg-transparent py-1 border-x border-slate-200 focus:outline-none focus:bg-emerald-50/50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          title="กรอกจำนวนที่ต้องการ"
+                        />
                         <button
                           type="button"
-                          disabled={!eq.selected}
                           onClick={() => updateQuantity(eq.equipment_id, 1)}
-                          className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                          className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                          title="เพิ่มจำนวน"
                         >
                           <Plus size={13} />
                         </button>
@@ -667,69 +807,23 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             )}
           </div>
 
-          {/* Section 3: Booker Information & Note */}
-          <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
+          {/* Section 3: หมายเหตุเพิ่มเติม / ข้อกำหนดพิเศษ (ถ้ามี) */}
+          <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
             <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
               <div className="w-8 h-8 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center">
                 <FileText size={18} />
               </div>
               <h2 className="text-base font-bold text-slate-900">
-                3. ข้อมูลผู้ขอจองและการติดต่อ
+                3. รายละเอียดเพิ่มเติม
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">ชื่อผู้จอง *</label>
-                <input
-                  type="text"
-                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
-                  value={bookerName}
-                  onChange={(e) => setBookerName(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">แผนก / ฝ่าย *</label>
-                <input
-                  type="text"
-                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">เบอร์โทรศัพท์ติดต่อ *</label>
-                <input
-                  type="tel"
-                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">อีเมลองค์กร *</label>
-                <input
-                  type="email"
-                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">หมายเหตุเพิ่มเติม / ข้อกำหนดพิเศษ (ถ้ามี)</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                หมายเหตุเพิ่มเติม / ข้อกำหนดพิเศษ (ถ้ามี)
+              </label>
               <textarea
-                rows={3}
+                rows={4}
                 className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
                 placeholder="เช่น ต้องการจัดโต๊ะแบบ Classroom, ขอสาย HDMI เพิ่มเติม, จัดเตรียมกาแฟรับรอง"
                 value={note}
@@ -748,13 +842,30 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             >
               ยกเลิก
             </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-6 py-3 rounded-sm text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-70"
-            >
-              <span>{isSubmitting ? 'กำลังส่งข้อมูล...' : currentEditingBooking ? 'บันทึกการแก้ไข' : 'ส่งคำขอจองห้องประชุม'}</span>
-            </button>
+            {(() => {
+              const isAvailable = selectedRoom ? (selectedRoom.status !== undefined ? Number(selectedRoom.status) === 1 : (selectedRoom.is_active !== false)) : true;
+              return (
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !isAvailable}
+                  className={`px-6 py-3 rounded-sm text-sm font-bold flex items-center gap-2 transition-all ${
+                    isAvailable && !isSubmitting
+                      ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 cursor-pointer'
+                      : 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed shadow-none'
+                  }`}
+                >
+                  <span>
+                    {isSubmitting
+                      ? 'กำลังส่งข้อมูล...'
+                      : !isAvailable
+                      ? 'ห้องปิดปรับปรุง (ไม่สามารถส่งคำขอได้)'
+                      : currentEditingBooking
+                      ? 'บันทึกการแก้ไข'
+                      : 'ส่งคำขอจองห้องประชุม'}
+                  </span>
+                </button>
+              );
+            })()}
           </div>
         </div>
 
@@ -773,6 +884,17 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                   alt={selectedRoom.name}
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute top-2.5 right-2.5">
+                  {(selectedRoom.status !== undefined ? Number(selectedRoom.status) === 1 : selectedRoom.is_active) ? (
+                    <span className="bg-emerald-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                      พร้อมใช้งาน
+                    </span>
+                  ) : (
+                    <span className="bg-rose-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                      ปิดปรับปรุง
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div>
@@ -801,6 +923,83 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               </button>
             </div>
           )}
+
+          {/* Room Recent Bookings Schedule */}
+          <div className="bg-white rounded-md p-5 border border-slate-200/80 shadow-xs space-y-3.5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center shadow-xs">
+                  <Clock size={16} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 leading-tight">
+                    ตารางการจองล่าสุดของห้องนี้
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    {selectedRoom?.name || selectedRoom?.room_name || 'ห้องประชุม'}
+                  </p>
+                </div>
+              </div>
+              <span className="text-[11px] font-bold text-blue-600 bg-blue-50 border border-blue-200/60 px-2.5 py-0.5 rounded-full">
+                {roomBookings.length} รายการ
+              </span>
+            </div>
+
+            {isLoadingBookings ? (
+              <div className="py-6 text-center text-slate-400 text-xs">
+                กำลังตรวจสอบตารางการจอง...
+              </div>
+            ) : roomBookings.length === 0 ? (
+              <div className="py-6 px-3 text-center bg-slate-50/70 rounded-md border border-dashed border-slate-200">
+                <Sparkles size={20} className="text-emerald-500 mx-auto mb-1.5" />
+                <div className="text-xs font-bold text-slate-800">
+                  ยังไม่มีการจองในเร็วๆ นี้
+                </div>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  ห้องนี้ว่างพร้อมให้คุณเลือกช่วงเวลาที่ต้องการได้ทันที
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+                {roomBookings.map((b) => (
+                  <div
+                    key={b.id}
+                    className="p-3 bg-slate-50/70 hover:bg-slate-100/70 border border-slate-200/60 rounded-md transition-all text-xs"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="font-bold text-slate-900 line-clamp-1">{b.title}</div>
+                      <span
+                        className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${(b.status || '').toUpperCase() === 'APPROVED'
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
+                            : (b.status || '').toUpperCase() === 'PENDING'
+                              ? 'bg-amber-50 text-amber-700 border border-amber-200/60'
+                              : 'bg-slate-100 text-slate-600 border border-slate-200'
+                          }`}
+                      >
+                        {(b.status || '').toUpperCase() === 'APPROVED'
+                          ? 'อนุมัติแล้ว'
+                          : (b.status || '').toUpperCase() === 'PENDING'
+                            ? 'รออนุมัติ'
+                            : b.status}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-slate-500 text-[11px] mt-1.5">
+                      <Users size={12} className="text-slate-400 shrink-0" />
+                      <span className="line-clamp-1">
+                        ผู้จอง: {b.booker_name || 'ไม่ระบุผู้จอง'} {b.department ? `(${b.department})` : ''}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-blue-700 font-medium text-[11px] mt-1">
+                      <Clock size={12} className="text-blue-500 shrink-0" />
+                      <span>{b.booking_date} | {b.start_time} - {b.end_time} น.</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Booking Summary Card */}
           <div className="bg-white rounded-md p-6 border border-slate-200/80 shadow-xs space-y-4">
@@ -849,6 +1048,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               </p>
             </div>
           </div>
+
+
         </div>
       </form>
     </div>

@@ -139,9 +139,7 @@ export const RoomsPage: React.FC<RoomsPageProps> = ({
   const filteredRooms = rooms.filter(room => {
     const q = searchTerm.toLowerCase();
     const matchesSearch =
-      room.name.toLowerCase().includes(q) ||
-      room.code.toLowerCase().includes(q) ||
-      (room.description && room.description.toLowerCase().includes(q));
+      room.name.toLowerCase().includes(q) || room.code.toLowerCase().includes(q)
 
     const matchesEquipment =
       selectedEquipment === 'All' ||

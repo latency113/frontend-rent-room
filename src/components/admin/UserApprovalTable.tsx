@@ -6,7 +6,7 @@ import { formatThaiDateTime } from '../../utils/date';
 import { Check, X, Trash2, Search, UserCheck, Plus, Edit2, Shield, Filter } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
-import { confirmDialog, promptDialog } from '../../utils/dialog';
+import { confirmDialog, promptDialog, warningAlert } from '../../utils/dialog';
 import { UserFormModal } from './UserFormModal';
 
 export const UserApprovalTable: React.FC = () => {
@@ -91,10 +91,19 @@ export const UserApprovalTable: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: string, name: string) => {
+  const handleDelete = async (targetUser: User) => {
+    // ตรวจสอบว่าผู้ใช้งานมีรายการจองห้องประชุมหรือไม่
+    if (targetUser.booking_count && targetUser.booking_count > 0) {
+      await warningAlert(
+        'ไม่สามารถลบผู้ใช้งานนี้ได้',
+        `ผู้ใช้งาน "${targetUser.name}" มีประวัติหรือรายการจองห้องประชุม (${targetUser.booking_count} รายการ) อยู่ในระบบ จึงไม่สามารถลบบัญชีผู้ใช้ได้ เพื่อรักษาความถูกต้องของข้อมูลการจอง`
+      );
+      return;
+    }
+
     const confirmed = await confirmDialog({
       title: 'ยืนยันการลบบัญชีผู้ใช้',
-      text: `คุณแน่ใจหรือไม่ว่าต้องการลบบัญชี "${name}" ออกจากระบบ? การดำเนินการนี้ไม่สามารถย้อนกลับได้`,
+      text: `คุณแน่ใจหรือไม่ว่าต้องการลบบัญชี "${targetUser.name}" ออกจากระบบ? การดำเนินการนี้ไม่สามารถย้อนกลับได้`,
       confirmText: 'ลบบัญชี',
       cancelText: 'ยกเลิก',
       isDanger: true,
@@ -102,12 +111,15 @@ export const UserApprovalTable: React.FC = () => {
     });
     if (!confirmed) return;
 
-    const res = await usersApi.delete(id);
+    const res = await usersApi.delete(targetUser.id);
     if (res.success) {
-      toast.success('ลบข้อมูลเรียบร้อยแล้ว');
+      toast.success('ลบข้อมูลผู้ใช้งานเรียบร้อยแล้ว');
       fetchUsers();
     } else {
-      toast.error(res.error || 'ไม่สามารถลบได้');
+      await warningAlert(
+        'ไม่สามารถลบผู้ใช้งานได้',
+        res.error || 'ผู้ใช้งานนี้มีรายการจองห้องประชุมอยู่ในระบบ จึงไม่สามารถลบได้'
+      );
     }
   };
 
@@ -244,7 +256,17 @@ export const UserApprovalTable: React.FC = () => {
                       </div>
                       <div>
                         <div style={{ fontWeight: 600 }}>{u.name}</div>
-                        <div style={{ fontSize: '0.725rem', color: 'var(--text-muted)' }}>ID: {u.id.slice(0, 8)}...</div>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span style={{ fontSize: '0.725rem', color: 'var(--text-muted)' }}>ID: {u.id.slice(0, 8)}...</span>
+                          {u.booking_count !== undefined && u.booking_count > 0 ? (
+                            <span
+                              className="inline-flex items-center text-[10px] font-bold px-1.5 py-0.2 text-purple-700 bg-purple-50 border border-purple-200/80 rounded-sm"
+                              title={`ผู้ใช้งานนี้มีรายการจองห้องประชุม ${u.booking_count} รายการ`}
+                            >
+                              จอง {u.booking_count} ครั้ง
+                            </span>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -319,9 +341,17 @@ export const UserApprovalTable: React.FC = () => {
                       {String(currentUser?.id) !== String(u.id) && (
                         <button
                           className="btn btn-secondary btn-sm"
-                          style={{ padding: '4px 8px', color: '#ef4444' }}
-                          onClick={() => handleDelete(u.id, u.name)}
-                          title="ลบสมาชิก"
+                          style={{
+                            padding: '4px 8px',
+                            color: u.booking_count && u.booking_count > 0 ? '#94a3b8' : '#ef4444',
+                            borderColor: u.booking_count && u.booking_count > 0 ? '#e2e8f0' : undefined
+                          }}
+                          onClick={() => handleDelete(u)}
+                          title={
+                            u.booking_count && u.booking_count > 0
+                              ? `มีประวัติการจอง ${u.booking_count} รายการ (ไม่สามารถลบได้)`
+                              : 'ลบสมาชิก'
+                          }
                         >
                           <Trash2 size={14} />
                         </button>

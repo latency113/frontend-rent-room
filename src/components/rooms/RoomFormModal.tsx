@@ -56,7 +56,9 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  const [isActive, setIsActive] = useState<boolean>(room?.is_active !== undefined ? room.is_active : true);
+  const [isActive, setIsActive] = useState<boolean>(
+    room?.status !== undefined ? Number(room.status) === 1 : (room?.is_active !== undefined ? room.is_active : true)
+  );
   const [equipment, setEquipment] = useState<string[]>(room?.equipment || ['Projector', 'Whiteboard']);
   const [error, setError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -151,6 +153,7 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
       description,
       image_url: images[0] || '',
       images,
+      status: isActive ? 1 : 0,
       is_active: isActive,
       equipment
     };

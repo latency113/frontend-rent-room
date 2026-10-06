@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -17,20 +17,14 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-import { User as UserType } from '../../types';
+import { User as UserType, Department } from '../../types';
+import { departmentsApi } from '../../api/departments.api';
 
 interface AuthModalProps {
   initialMode?: 'login' | 'register';
   onClose: () => void;
   onSuccess: (user?: UserType) => void;
 }
-
-const DEPARTMENTS = [
-  { id: 1, name: 'ฝ่ายบริหารและเทคโนโลยี' },
-  { id: 2, name: 'ฝ่ายพัฒนาผลิตภัณฑ์' },
-  { id: 3, name: 'ฝ่ายการตลาดและประชาสัมพันธ์' },
-  { id: 4, name: 'ฝ่ายบัญชีและการเงิน' }
-];
 
 export const AuthModal: React.FC<AuthModalProps> = ({
   initialMode = 'login',
@@ -51,8 +45,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [regEmail, setRegEmail] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [showRegPassword, setShowRegPassword] = useState(false);
-  const [departmentId, setDepartmentId] = useState<number>(1);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [departmentId, setDepartmentId] = useState<number | ''>('');
   const [phone, setPhone] = useState('');
+
+  // Fetch departments from database
+  useEffect(() => {
+    departmentsApi.getAll().then(res => {
+      if (res.success && res.data && res.data.length > 0) {
+        setDepartments(res.data);
+        setDepartmentId(res.data[0].department_id);
+      }
+    }).catch(() => {});
+  }, []);
 
   // Status
   const [error, setError] = useState('');
@@ -100,7 +105,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setIsLoading(true);
     const loadingToast = toast.loading('กำลังส่งคำขอสมัครสมาชิก...');
 
-    const deptName = DEPARTMENTS.find(d => d.id === departmentId)?.name || 'ฝ่ายบริหารและเทคโนโลยี';
+    const selectedDept = departments.find(d => Number(d.department_id) === Number(departmentId));
+    const deptName = selectedDept?.department_name || '';
 
     const res = await register({
       first_name: firstName.trim(),
@@ -108,7 +114,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       name: `${firstName.trim()} ${lastName.trim()}`,
       email: regEmail.trim().toLowerCase(),
       password: regPassword,
-      department_id: departmentId,
+      department_id: departmentId ? Number(departmentId) : (selectedDept ? selectedDept.department_id : null),
       department: deptName,
       branch: 'สำนักงานใหญ่',
       phone: phone.trim()
@@ -412,11 +418,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       style={{ paddingLeft: '12px', paddingRight: '12px', height: '42px' }}
                       className="w-full text-sm bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all cursor-pointer"
                     >
-                      {DEPARTMENTS.map(d => (
-                        <option key={d.id} value={d.id}>
-                          {d.name}
-                        </option>
-                      ))}
+                      {departments.length === 0 ? (
+                        <option value="">กำลังโหลดแผนก...</option>
+                      ) : (
+                        departments.map(d => (
+                          <option key={d.department_id} value={d.department_id}>
+                            {d.department_name}
+                          </option>
+                        ))
+                      )}
                     </select>
                   </div>
 

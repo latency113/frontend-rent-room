@@ -89,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Brand Logo */}
         <div
           className="flex items-center gap-3 cursor-pointer group select-none shrink-0"
-          onClick={() => handleNav(isAdmin ? 'admin' : 'rooms', isAdmin ? '/admin' : '/rooms')}
+          onClick={() => handleNav(isAdmin ? 'admin' : 'rooms', isAdmin ? '/admin/bookings' : '/rooms')}
         >
           <div className={`w-10 h-10 rounded-md ${
             isAdmin
@@ -127,7 +127,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     ? 'bg-purple-600 text-white shadow-md shadow-purple-500/25 ring-2 ring-purple-600/30'
                     : 'text-purple-700 bg-purple-50 hover:bg-purple-100 hover:text-purple-800'
                 }`}
-                onClick={() => handleNav('admin', '/admin')}
+                onClick={() => handleNav('admin', '/admin/bookings')}
               >
                 <Shield size={16} />
                 <span>แดชบอร์ดจัดการระบบ</span>
@@ -262,13 +262,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* User Profile Badge */}
               <div
-                className={`flex items-center gap-2.5 pl-1 pr-3 py-1 bg-slate-100/70 border border-slate-200/80 rounded-full ${
+                className={`flex items-center gap-2.5 pl-1 pr-3 py-1 bg-slate-100/70 border border-slate-200/80 rounded-md ${
                   isAdmin ? 'cursor-pointer hover:border-purple-300 hover:bg-purple-50/60 transition-all' : ''
                 }`}
-                onClick={() => isAdmin && handleNav('admin', '/admin')}
+                onClick={() => isAdmin && handleNav('admin', '/admin/bookings')}
                 title={isAdmin ? 'คลิกเพื่อไปที่แดชบอร์ดผู้ดูแลระบบ' : undefined}
               >
-                <div className={`w-8 h-8 rounded-full ${
+                <div className={`w-8 h-8 rounded-sm ${
                   isAdmin
                     ? 'bg-gradient-to-tr from-purple-600 to-indigo-600 shadow-purple-500/25'
                     : 'bg-gradient-to-tr from-blue-600 to-indigo-600 shadow-blue-500/20'

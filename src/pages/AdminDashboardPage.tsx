@@ -6,7 +6,7 @@ import { ReportView } from '../components/admin/ReportView';
 import { DepartmentManagement } from '../components/admin/DepartmentManagement';
 import { RoomCard } from '../components/rooms/RoomCard';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { roomsApi } from '../api/rooms.api';
 import {
   Users,
@@ -21,7 +21,10 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+export type AdminTab = 'requests' | 'users' | 'rooms' | 'departments' | 'reports';
+
 interface AdminDashboardPageProps {
+  defaultTab?: AdminTab;
   rooms?: Room[];
   onOpenCreateRoom?: () => void;
   onOpenEditRoom?: (room: Room) => void;
@@ -31,6 +34,7 @@ interface AdminDashboardPageProps {
 }
 
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
+  defaultTab = 'requests',
   rooms: propRooms,
   onOpenCreateRoom,
   onOpenEditRoom,
@@ -41,9 +45,20 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const { user } = useAuth();
   const isAdmin = String(user?.role || '').toLowerCase() === 'admin';
   const navigate = useNavigate();
+  const routerState = useRouterState();
+  const currentPath = routerState?.location?.pathname || '';
 
+  const getTabFromPath = (path: string): AdminTab => {
+    if (path.includes('/admin/users')) return 'users';
+    if (path.includes('/admin/departments')) return 'departments';
+    if (path.includes('/admin/rooms')) return 'rooms';
+    if (path.includes('/admin/reports')) return 'reports';
+    if (path.includes('/admin/bookings')) return 'requests';
+    return defaultTab;
+  };
+
+  const activeTab = getTabFromPath(currentPath);
   const [rooms, setRooms] = useState<Room[]>(propRooms || []);
-  const [activeTab, setActiveTab] = useState<'requests' | 'users' | 'rooms' | 'departments' | 'reports'>('requests');
 
   const fetchRooms = async () => {
     try {
@@ -166,15 +181,15 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         </div>
       </div>
 
-      {/* Admin Navigation Tabs */}
+      {/* Admin Navigation Tabs - Separate Page Routes */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'requests'
-              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
+              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
           }`}
-          onClick={() => setActiveTab('requests')}
+          onClick={() => navigate({ to: '/admin/bookings' as any })}
         >
           <CalendarCheck size={16} />
           <span>รายการคำขอจองห้อง (Bookings)</span>
@@ -183,10 +198,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         <button
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'users'
-              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
+              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
           }`}
-          onClick={() => setActiveTab('users')}
+          onClick={() => navigate({ to: '/admin/users' as any })}
         >
           <Users size={16} />
           <span>จัดการผู้ใช้งาน (Users)</span>
@@ -195,10 +210,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         <button
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'departments'
-              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
+              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
           }`}
-          onClick={() => setActiveTab('departments')}
+          onClick={() => navigate({ to: '/admin/departments' as any })}
         >
           <FolderTree size={16} />
           <span>จัดการแผนก (Departments)</span>
@@ -207,10 +222,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         <button
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'rooms'
-              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
+              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
           }`}
-          onClick={() => setActiveTab('rooms')}
+          onClick={() => navigate({ to: '/admin/rooms' as any })}
         >
           <Building size={16} />
           <span>จัดการห้องประชุม ({rooms.length})</span>
@@ -219,10 +234,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         <button
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'reports'
-              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
+              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
           }`}
-          onClick={() => setActiveTab('reports')}
+          onClick={() => navigate({ to: '/admin/reports' as any })}
         >
           <BarChart3 size={16} />
           <span>ระบบรายงานสถิติ (Reports)</span>

@@ -66,7 +66,9 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  const [isActive, setIsActive] = useState<boolean>(propRoom?.is_active !== undefined ? propRoom.is_active : true);
+  const [isActive, setIsActive] = useState<boolean>(
+    propRoom?.status !== undefined ? Number(propRoom.status) === 1 : (propRoom?.is_active !== undefined ? propRoom.is_active : true)
+  );
   const [equipment, setEquipment] = useState<string[]>(propRoom?.equipment || ['Projector', 'Whiteboard']);
   const [error, setError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -87,7 +89,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
           setCapacity(r.capacity || 20);
           setFloor(r.floor || 'ชั้น 1');
           setDescription(r.description || '');
-          setIsActive(r.is_active !== undefined ? r.is_active : true);
+          setIsActive(r.status !== undefined ? Number(r.status) === 1 : (r.is_active !== undefined ? r.is_active : true));
           if (r.equipment && r.equipment.length > 0) setEquipment(r.equipment);
           if (r.images && r.images.length > 0) {
             setImages(r.images.map(img => img.image_url));
@@ -214,6 +216,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
       description,
       image_url: images[0] || '',
       images,
+      status: isActive ? 1 : 0,
       is_active: isActive,
       equipment
     };
@@ -265,7 +268,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
               <span className="text-purple-600 font-semibold">{isEditing ? 'แก้ไขห้องประชุม' : 'เพิ่มห้องประชุมใหม่'}</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mt-0.5">
-              <span>{isEditing ? `✏️ แก้ไขข้อมูล: ${currentRoom?.name || ''}` : '✨ เพิ่มห้องประชุมใหม่'}</span>
+              <span>{isEditing ? `แก้ไขข้อมูล: ${currentRoom?.name || ''}` : 'xเพิ่มห้องประชุมใหม่'}</span>
             </h1>
           </div>
         </div>

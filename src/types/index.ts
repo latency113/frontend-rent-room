@@ -26,6 +26,7 @@ export interface User {
   status: UserStatus;
   created_at?: string;
   updated_at?: string;
+  booking_count?: number;
 }
 
 // 4. Equipment (อุปกรณ์)
@@ -58,6 +59,7 @@ export interface Room {
   room_name?: string;
   name: string;
   code: string;
+  room_code?: string;
   capacity: number;
   location_detail?: string;
   floor: string;
@@ -70,6 +72,7 @@ export interface Room {
     default_quantity: number;
   }[];
   equipment: string[];
+  status?: number | string;
   is_active: boolean;
   created_at?: string;
   updated_at?: string;
@@ -77,6 +80,7 @@ export interface Room {
 
 export interface CreateRoomPayload {
   code: string;
+  room_code?: string;
   name: string;
   capacity: number;
   floor?: string;
@@ -84,6 +88,7 @@ export interface CreateRoomPayload {
   image_url?: string;
   images?: string[];
   equipment?: string[];
+  status?: number | string;
   is_active?: boolean;
 }
 

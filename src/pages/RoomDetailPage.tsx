@@ -16,7 +16,9 @@ import {
   Sparkles,
   ShieldCheck,
   Building2,
-  Loader2
+  Loader2,
+  AlertTriangle,
+  Shield
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -102,8 +104,21 @@ export const RoomDetailPage: React.FC<RoomDetailPageProps> = ({
     }
   };
 
+  const isRoomAvailable = room
+    ? (room.status !== undefined ? Number(room.status) === 1 : (room.is_active !== false))
+    : false;
+  const isAdmin = String(user?.role || '').toLowerCase() === 'admin';
+
   const handleBook = () => {
     if (!room) return;
+    if (isAdmin) {
+      toast.error('ผู้ดูแลระบบ (Admin) ไม่สามารถทำการจองห้องประชุมได้');
+      return;
+    }
+    if (!isRoomAvailable) {
+      toast.error('ห้องประชุมนี้อยู่ในสถานะปิดปรับปรุง ไม่สามารถทำการจองได้');
+      return;
+    }
     if (propBookRoom) {
       propBookRoom(room);
     } else {
@@ -160,13 +175,6 @@ export const RoomDetailPage: React.FC<RoomDetailPageProps> = ({
           <ArrowLeft size={16} />
           <span>ย้อนกลับหน้ารายการ</span>
         </button>
-
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">รหัสห้อง:</span>
-          <span className="px-2.5 py-1 rounded-sm bg-slate-100 text-slate-700 font-bold text-xs font-mono">
-            {room.code}
-          </span>
-        </div>
       </div>
 
       {/* Main Showcase Grid */}
@@ -186,10 +194,16 @@ export const RoomDetailPage: React.FC<RoomDetailPageProps> = ({
               </span>
             </div>
             <div className="absolute top-4 right-4">
-              <span className="px-3 py-1 rounded-md bg-emerald-500/90 text-white text-xs font-bold shadow-md flex items-center gap-1.5">
-                <CheckCircle2 size={14} />
-                <span>พร้อมใช้งาน</span>
-              </span>
+              {(room.status !== undefined ? Number(room.status) === 1 : room.is_active) ? (
+                <span className="px-3 py-1 rounded-md bg-emerald-500/90 text-white text-xs font-bold shadow-md flex items-center gap-1.5">
+                  <CheckCircle2 size={14} />
+                  <span>พร้อมใช้งาน</span>
+                </span>
+              ) : (
+                <span className="px-3 py-1 rounded-md bg-rose-500/90 text-white text-xs font-bold shadow-md flex items-center gap-1.5">
+                  <span>ปิดปรับปรุง</span>
+                </span>
+              )}
             </div>
           </div>
 
@@ -251,13 +265,43 @@ export const RoomDetailPage: React.FC<RoomDetailPageProps> = ({
           </div>
 
           {/* Direct Booking CTA */}
-          <button
-            onClick={handleBook}
-            className="w-full py-3.5 px-4 rounded-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 transition-all flex items-center justify-center gap-2 cursor-pointer mt-4"
-          >
-            <Calendar size={18} />
-            <span>ส่งคำขอจองห้องนี้</span>
-          </button>
+          <div className="space-y-2.5 mt-4">
+            {isAdmin ? (
+              <div className="w-full py-3.5 px-4 rounded-sm bg-purple-50 text-purple-700 border border-purple-200/80 text-xs sm:text-sm flex items-center justify-center gap-2">
+                <Shield size={16} />
+                <span>บัญชีผู้ดูแลระบบ (Admin) ไม่สามารถจองห้องประชุมได้</span>
+              </div>
+            ) : (
+              <button
+                onClick={handleBook}
+                disabled={!isRoomAvailable}
+                className={`w-full py-3.5 px-4 rounded-sm font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all ${
+                  isRoomAvailable
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 cursor-pointer'
+                    : 'bg-slate-200 text-slate-500 border border-slate-300 cursor-not-allowed shadow-none'
+                }`}
+              >
+                {isRoomAvailable ? (
+                  <>
+                    <Calendar size={18} />
+                    <span>ส่งคำขอจองห้องนี้</span>
+                  </>
+                ) : (
+                  <>
+                    <AlertTriangle size={18} className="text-rose-500" />
+                    <span>ห้องปิดปรับปรุง (ไม่สามารถจองได้)</span>
+                  </>
+                )}
+              </button>
+            )}
+
+            {!isAdmin && !isRoomAvailable && (
+              <div className="p-3 rounded-sm bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center justify-center gap-2">
+                <AlertTriangle size={15} className="shrink-0 text-rose-600" />
+                <span>ห้องประชุมนี้อยู่ระหว่างปิดปรับปรุงชั่วคราว จึงไม่สามารถส่งคำขอจองได้</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

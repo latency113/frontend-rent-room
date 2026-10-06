@@ -119,6 +119,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('auth_user');
     setToken(null);
     setUser(null);
+    if (typeof window !== 'undefined') {
+      window.location.href = '/rooms';
+    }
   };
 
   return (
