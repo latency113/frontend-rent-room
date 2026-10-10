@@ -1,8 +1,9 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { Booking } from '../../types';
+import { Booking, Room } from '../../types';
 import { StatusBadge } from '../common/StatusBadge';
 import { formatThaiDate, formatThaiDateTime } from '../../utils/date';
+import { roomsApi } from '../../api/rooms.api';
 import {
   X,
   Calendar,
@@ -23,6 +24,20 @@ import {
 
 import { getEquipmentUnit, getEquipmentThaiName } from '../../utils/equipment';
 
+const roomsCache = new Map<string, Room>();
+
+// Pre-warm rooms cache so room details and room code are instantly available
+if (typeof window !== 'undefined') {
+  roomsApi.getAll().then(res => {
+    if (res.success && res.data) {
+      res.data.forEach(r => {
+        if (r.id) roomsCache.set(String(r.id), r);
+        if (r.room_id) roomsCache.set(String(r.room_id), r);
+      });
+    }
+  }).catch(() => {});
+}
+
 interface BookingDetailModalProps {
   booking: Booking | null;
   isOpen: boolean;
@@ -41,6 +56,43 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
   isAdmin = false
 }) => {
   if (!isOpen || !booking) return null;
+
+  const roomIdStr = String(booking.room_id || booking.room?.room_id || booking.room?.id || '');
+  const [resolvedRoom, setResolvedRoom] = React.useState<Room | null>(() => {
+    if (booking.room?.code || booking.room?.room_code) return booking.room;
+    if (roomIdStr && roomsCache.has(roomIdStr)) return roomsCache.get(roomIdStr) || null;
+    return booking.room || null;
+  });
+
+  React.useEffect(() => {
+    if (!booking) {
+      setResolvedRoom(null);
+      return;
+    }
+
+    if (booking.room?.code || booking.room?.room_code) {
+      setResolvedRoom(booking.room);
+      if (roomIdStr) roomsCache.set(roomIdStr, booking.room);
+      return;
+    }
+
+    if (roomIdStr && roomsCache.has(roomIdStr)) {
+      setResolvedRoom(roomsCache.get(roomIdStr) || null);
+      return;
+    }
+
+    if (roomIdStr) {
+      roomsApi.getById(roomIdStr).then(res => {
+        if (res.success && res.data) {
+          roomsCache.set(roomIdStr, res.data);
+          setResolvedRoom(res.data);
+        }
+      }).catch(() => {});
+    }
+  }, [booking, roomIdStr]);
+
+  const currentRoom = resolvedRoom || booking.room;
+  const roomCodeDisplay = currentRoom?.code || currentRoom?.room_code || '-';
 
   const bookingIdDisplay = `#BKG-${String(booking.booking_id || booking.id).padStart(4, '0')}`;
   const statusUpper = (booking.status || '').toUpperCase();
@@ -127,13 +179,10 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
             <div className="mt-2 flex items-center gap-2 text-xs font-medium text-slate-600">
               <Building2 size={14} className="text-purple-500" />
               <span className=" text-purple-900">
-                {booking.room?.name || `ห้องประชุม ${booking.room_id}`}
+                {currentRoom?.name || currentRoom?.room_name || `ห้องประชุม ${booking.room_id}`}
               </span>
-              {booking.room?.floor && (
-                <span className="text-slate-400">• ชั้น {booking.room.floor}</span>
-              )}
-              {booking.room?.location_detail && (
-                <span className="text-slate-400">• {booking.room.location_detail}</span>
+              {(currentRoom?.floor || currentRoom?.location_detail) && (
+                <span className="text-slate-400">• {currentRoom.location_detail || currentRoom.floor}</span>
               )}
             </div>
           </div>
@@ -146,7 +195,7 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 <Calendar size={13} />
                 <span>วันที่ใช้งาน</span>
               </div>
-              <div className=" text-xs sm:text-sm text-slate-900">
+              <div className="text-xs sm:text-sm font-medium text-slate-900">
                 {formatThaiDate(booking.booking_date)}
               </div>
             </div>
@@ -157,7 +206,7 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 <Clock size={13} />
                 <span>ช่วงเวลา</span>
               </div>
-              <div className=" text-xs sm:text-sm text-slate-900">
+              <div className="text-xs sm:text-sm font-medium text-slate-900">
                 {booking.start_time} - {booking.end_time} น.
               </div>
             </div>
@@ -168,31 +217,36 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 <Users size={13} />
                 <span>ผู้เข้าร่วม</span>
               </div>
-              <div className=" text-xs sm:text-sm text-slate-900">
+              <div className="text-xs sm:text-sm font-medium text-slate-900">
                 {booking.attendees_count || booking.attendee_count || 1} คน
               </div>
-              {booking.room?.capacity && (
+              {(currentRoom?.capacity || booking.room?.capacity) && (
                 <div className="text-[10px] text-slate-400 mt-0.5">
-                  ความจุห้อง {booking.room.capacity} ที่นั่ง
+                  ความจุห้อง {currentRoom?.capacity || booking.room?.capacity} ที่นั่ง
                 </div>
               )}
             </div>
 
-            {/* 4. Room Code / ID */}
+            {/* 4. Room Code */}
             <div className="p-3.5 rounded-md bg-slate-50 border border-slate-200/80">
               <div className="text-slate-400 flex items-center gap-1 text-[11px] font-medium mb-1">
                 <Building2 size={13} />
                 <span>รหัสห้อง</span>
               </div>
-              <div className=" text-xs sm:text-sm text-slate-900 truncate">
-                {booking.room?.code}
+              <div className="text-xs sm:text-sm font-medium text-slate-900 truncate">
+                {roomCodeDisplay}
               </div>
+              {(currentRoom?.floor || currentRoom?.location_detail) && (
+                <div className="text-[10px] text-slate-400 mt-0.5 truncate">
+                  {currentRoom.location_detail || currentRoom.floor}
+                </div>
+              )}
             </div>
           </div>
 
           {/* Booker & Organization Details */}
           <div className="border border-slate-200/80 rounded-md p-5 bg-white space-y-4">
-            <h4 className="text-xs  uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
               <UserCheck size={14} className="text-purple-600" />
               <span>ข้อมูลผู้จอง & หน่วยงาน</span>
             </h4>
@@ -200,14 +254,14 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
               <div>
                 <span className="text-slate-400 block text-xs">ชื่อ-นามสกุล ผู้จอง</span>
-                <span className=" text-slate-900 text-sm mt-0.5 block">
+                <span className="text-slate-900 text-sm mt-0.5 block font-medium">
                   {booking.booker_name || '-'}
                 </span>
               </div>
 
               <div>
                 <span className="text-slate-400 block text-xs">สังกัดฝ่าย / แผนก</span>
-                <span className=" text-slate-900 text-sm mt-0.5 block">
+                <span className="text-slate-900 text-sm mt-0.5 block font-medium">
                   {booking.department || '-'}
                 </span>
               </div>
@@ -246,6 +300,13 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 <span className="text-slate-400 block text-xs">วันที่ส่งคำขอจอง</span>
                 <span className="font-medium text-slate-700 mt-0.5 block">
                   {booking.created_at ? formatThaiDateTime(booking.created_at) : '-'}
+                </span>
+              </div>
+
+              <div>
+                <span className="text-slate-400 block text-xs">สาขา / สำนักงาน</span>
+                <span className="font-medium text-slate-700 mt-0.5 block">
+                  {booking.branch || 'สำนักงานใหญ่'}
                 </span>
               </div>
             </div>
