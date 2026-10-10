@@ -185,7 +185,7 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 <span>รหัสห้อง</span>
               </div>
               <div className=" text-xs sm:text-sm text-slate-900 truncate">
-                {booking.room?.code || `RM-${booking.room_id}`}
+                {booking.room?.code}
               </div>
             </div>
           </div>
