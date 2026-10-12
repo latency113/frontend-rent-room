@@ -136,11 +136,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-fadeIn"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 dark:bg-black/75 backdrop-blur-sm overflow-y-auto animate-fadeIn"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md sm:max-w-lg bg-white rounded-md shadow-2xl border border-slate-100 overflow-hidden my-auto transform transition-all animate-scaleIn"
+        className="relative w-full max-w-md sm:max-w-lg bg-white dark:bg-slate-900 rounded-md shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden my-auto transform transition-all animate-scaleIn"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Glow Bar */}
@@ -149,7 +149,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors z-10"
+          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white flex items-center justify-center transition-colors z-10 cursor-pointer"
           title="ปิดหน้าต่าง"
         >
           <X size={18} />
@@ -162,20 +162,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <Building2 size={24} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900 leading-tight">ระบบจองห้องประชุม</h2>
-              <p className="text-xs text-slate-500">Meeting Room Booking System</p>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-tight">ระบบจองห้องประชุม</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Meeting Room Booking System</p>
             </div>
           </div>
 
           {/* Mode Tabs */}
           {!isRegisterSuccess && (
-            <div className="flex p-1 mb-6 bg-slate-100 rounded-md">
+            <div className="flex p-1 mb-6 bg-slate-100 dark:bg-slate-800 rounded-md">
               <button
                 type="button"
-                className={`flex-1 py-2 text-sm font-semibold rounded-sm transition-all ${
+                className={`flex-1 py-2 text-sm font-semibold rounded-sm transition-all cursor-pointer ${
                   mode === 'login'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 onClick={() => {
                   setMode('login');
@@ -186,10 +186,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </button>
               <button
                 type="button"
-                className={`flex-1 py-2 text-sm font-semibold rounded-sm transition-all ${
+                className={`flex-1 py-2 text-sm font-semibold rounded-sm transition-all cursor-pointer ${
                   mode === 'register'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 onClick={() => {
                   setMode('register');
@@ -203,7 +203,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           {/* Error Message */}
           {error && (
-            <div className="mb-5 p-3.5 rounded-sm bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-2.5 animate-shake">
+            <div className="mb-5 p-3.5 rounded-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-300 text-sm flex items-start gap-2.5 animate-shake">
               <AlertCircle size={18} className="shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
@@ -213,11 +213,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'login' && (
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                   อีเมลผู้ใช้งาน (Email) *
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                     <Mail size={18} />
                   </div>
                   <input
@@ -227,17 +227,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     onChange={(e) => setLoginEmail(e.target.value)}
                     placeholder="somsak@company.com"
                     style={{ paddingLeft: '44px', height: '46px' }}
-                    className="w-full pr-4 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+                    className="w-full pr-4 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                   รหัสผ่าน (Password) *
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                     <Lock size={18} />
                   </div>
                   <input
@@ -247,12 +247,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="••••••••"
                     style={{ paddingLeft: '44px', paddingRight: '44px', height: '46px' }}
-                    className="w-full text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+                    className="w-full text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                   <button
                     type="button"
                     onClick={() => setShowLoginPassword(!showLoginPassword)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
                     title={showLoginPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'}
                   >
                     {showLoginPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -313,19 +313,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
             ) : (
               <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
-                <div className="p-3 rounded-sm bg-amber-50/80 border border-amber-200/80 text-amber-800 text-xs flex items-center gap-2">
-                  <Sparkles size={16} className="shrink-0 text-amber-600" />
+                <div className="p-3 rounded-sm bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/60 text-amber-800 dark:text-amber-300 text-xs flex items-center gap-2">
+                  <Sparkles size={16} className="shrink-0 text-amber-600 dark:text-amber-400" />
                   <span>หลังสมัครสมาชิก บัญชีจะรอ Admin อนุมัติก่อนจึงจะล็อกอินได้</span>
                 </div>
 
                 {/* First Name & Last Name */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       ชื่อจริง (First Name) *
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                         <User size={16} />
                       </div>
                       <input
@@ -335,13 +335,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="สมศักดิ์"
                         style={{ paddingLeft: '38px', height: '42px' }}
-                        className="w-full pr-3 text-sm bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+                        className="w-full pr-3 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       นามสกุล (Last Name) *
                     </label>
                     <input
@@ -351,18 +351,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       onChange={(e) => setLastName(e.target.value)}
                       placeholder="มั่งมี"
                       style={{ paddingLeft: '12px', paddingRight: '12px', height: '42px' }}
-                      className="w-full text-sm bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+                      className="w-full text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                     />
                   </div>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     อีเมลองค์กร (Email) *
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                       <Mail size={16} />
                     </div>
                     <input
@@ -372,18 +372,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       onChange={(e) => setRegEmail(e.target.value)}
                       placeholder="somsak@company.com"
                       style={{ paddingLeft: '38px', height: '42px' }}
-                      className="w-full pr-3 text-sm bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+                      className="w-full pr-3 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                     />
                   </div>
                 </div>
 
                 {/* Password */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     รหัสผ่าน (อย่างน้อย 6 ตัวอักษร) *
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                       <Lock size={16} />
                     </div>
                     <input
@@ -393,12 +393,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       onChange={(e) => setRegPassword(e.target.value)}
                       placeholder="••••••••"
                       style={{ paddingLeft: '38px', paddingRight: '38px', height: '42px' }}
-                      className="w-full text-sm bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+                      className="w-full text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                     />
                     <button
                       type="button"
                       onClick={() => setShowRegPassword(!showRegPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
                       title={showRegPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'}
                     >
                       {showRegPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -409,20 +409,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 {/* Department & Phone */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       แผนก (Department) *
                     </label>
                     <select
                       value={departmentId}
                       onChange={(e) => setDepartmentId(Number(e.target.value))}
                       style={{ paddingLeft: '12px', paddingRight: '12px', height: '42px' }}
-                      className="w-full text-sm bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all cursor-pointer"
+                      className="w-full text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all cursor-pointer"
                     >
                       {departments.length === 0 ? (
                         <option value="">กำลังโหลดแผนก...</option>
                       ) : (
                         departments.map(d => (
-                          <option key={d.department_id} value={d.department_id}>
+                          <option key={d.department_id} value={d.department_id} className="dark:bg-slate-900 dark:text-slate-100">
                             {d.department_name}
                           </option>
                         ))
@@ -431,11 +431,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       เบอร์โทรศัพท์ (Phone) *
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                         <Phone size={16} />
                       </div>
                       <input
@@ -445,7 +445,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="08X-XXX-XXXX"
                         style={{ paddingLeft: '38px', height: '42px' }}
-                        className="w-full pr-3 text-sm bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+                        className="w-full pr-3 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-2 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                       />
                     </div>
                   </div>

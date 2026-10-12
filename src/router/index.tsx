@@ -29,11 +29,11 @@ const NotFoundComponent: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div className="py-24 text-center max-w-md mx-auto animate-fadeIn px-4">
-      <div className="w-16 h-16 rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
+      <div className="w-16 h-16 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center mx-auto mb-4">
         <Building2 size={32} />
       </div>
-      <h2 className="text-xl font-bold text-slate-900 mb-1">404 - ไม่พบหน้าที่คุณต้องการ</h2>
-      <p className="text-xs sm:text-sm text-slate-500 mb-6">
+      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">404 - ไม่พบหน้าที่คุณต้องการ</h2>
+      <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6">
         หน้าที่คุณกำลังค้นหาไม่มีอยู่ หรืออาจถูกย้ายไปยังตำแหน่งอื่น
       </p>
       <button
@@ -55,7 +55,13 @@ const RootLayout: React.FC = () => {
 
   return (
     <div className="app-container">
-      <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          className: 'dark:!bg-slate-800 dark:!text-slate-100 dark:!border dark:!border-slate-700 dark:!shadow-2xl'
+        }}
+      />
       <Navbar />
 
       <main className="main-content">

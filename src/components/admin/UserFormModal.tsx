@@ -161,20 +161,20 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-md max-w-lg w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-100 overflow-hidden animate-scaleUp"
+        className="bg-white dark:bg-slate-900 rounded-md max-w-lg w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-scaleUp"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 pb-4 border-b border-slate-100 flex items-center justify-between gap-4 bg-gradient-to-r from-slate-50 to-white">
+        <div className="p-6 pb-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4 bg-gradient-to-r from-slate-50 to-white dark:from-slate-900 dark:to-slate-900 dark:bg-slate-900">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100 shadow-sm shrink-0">
+            <div className="w-12 h-12 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-100 dark:border-purple-800/60 shadow-sm shrink-0">
               {isEditMode ? <UserCheck size={22} /> : <UserPlus size={22} />}
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                 {isEditMode ? 'แก้ไขข้อมูลผู้ใช้งาน' : 'เพิ่มผู้ใช้งานใหม่'}
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 {isEditMode
                   ? 'แก้ไขรายละเอียด สิทธิ์การใช้งาน และสังกัดแผนก'
                   : 'กำหนดข้อมูลบัญชีผู้ใช้งานเพื่อเข้าใช้งานระบบจองห้องประชุม'}
@@ -185,7 +185,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 p-2 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             title="ปิดหน้าต่าง"
           >
             <X size={20} />
@@ -195,7 +195,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto">
           {error && (
-            <div className="p-3 bg-red-50 text-red-700 text-xs rounded-sm border border-red-200">
+            <div className="p-3 bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-400 text-xs rounded-sm border border-red-200 dark:border-red-900/60">
               {error}
             </div>
           )}
@@ -203,24 +203,24 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           {/* Name Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 ชื่อจริง <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <UserIcon size={14} className="absolute left-3 top-3 text-slate-400" />
+                <UserIcon size={14} className="absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
                 <input
                   type="text"
                   required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="เช่น สมชาย"
-                  className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400"
+                  className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 นามสกุล
               </label>
               <input
@@ -228,48 +228,48 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="เช่น ใจดี"
-                className="w-full px-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400"
+                className="w-full px-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
               />
             </div>
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
               อีเมล (Email) <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <Mail size={14} className="absolute left-3 top-3 text-slate-400" />
+              <Mail size={14} className="absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="user@company.com"
-                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400"
+                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
               />
             </div>
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
               รหัสผ่าน {isEditMode ? '(เว้นว่างไว้หากไม่ต้องการเปลี่ยน)' : <span className="text-red-500">*</span>}
             </label>
             <div className="relative">
-              <Lock size={14} className="absolute left-3 top-3 text-slate-400" />
+              <Lock size={14} className="absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 required={!isEditMode}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={isEditMode ? '•••••••• (ไม่ระบุ = ใช้รหัสผ่านเดิม)' : 'อย่างน้อย 6 ตัวอักษร'}
-                className="w-full pl-9 pr-10 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400"
+                className="w-full pl-9 pr-10 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
+                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
               >
                 {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
               </button>
@@ -279,31 +279,31 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           {/* Phone & Department */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 เบอร์โทรศัพท์
               </label>
               <div className="relative">
-                <Phone size={14} className="absolute left-3 top-3 text-slate-400" />
+                <Phone size={14} className="absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="08X-XXX-XXXX"
-                  className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400"
+                  className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 สังกัดฝ่าย / แผนก
               </label>
               <div className="relative">
-                <Building2 size={14} className="absolute left-3 top-3 text-slate-400" />
+                <Building2 size={14} className="absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
                 <select
                   value={departmentId}
                   onChange={(e) => setDepartmentId(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all bg-white"
+                  className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 >
                   <option value="">-- ไม่ระบุแผนก --</option>
                   {departments.map((d) => (
@@ -319,7 +319,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           {/* Role and Status Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 บทบาท (Role)
               </label>
               <div className="flex gap-2">
@@ -328,8 +328,8 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
                   onClick={() => setRole('USER')}
                   className={`flex-1 py-2.5 px-3 text-xs font-semibold rounded-sm border transition-all cursor-pointer ${
                     role === 'USER'
-                      ? 'bg-purple-50 border-purple-500 text-purple-700'
-                      : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
+                      ? 'bg-purple-50 dark:bg-purple-950/50 border-purple-500 text-purple-700 dark:text-purple-300'
+                      : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
                   }`}
                 >
                   ผู้ใช้ทั่วไป
@@ -340,7 +340,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
                   className={`flex-1 py-2.5 px-3 text-xs font-semibold rounded-sm border transition-all cursor-pointer ${
                     role === 'ADMIN'
                       ? 'bg-purple-600 border-purple-600 text-white shadow-sm'
-                      : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
+                      : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
                   }`}
                 >
                   ผู้ดูแลระบบ
@@ -349,13 +349,13 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 สถานะบัญชี (Status)
               </label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as any)}
-                className="w-full px-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all bg-white"
+                className="w-full px-3 py-2 text-xs sm:text-sm rounded-sm border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
               >
                 <option value="APPROVED">อนุมัติแล้ว (Approved)</option>
                 <option value="PENDING">รออนุมัติ (Pending)</option>
@@ -365,11 +365,11 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-sm text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-sm text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               ยกเลิก
             </button>

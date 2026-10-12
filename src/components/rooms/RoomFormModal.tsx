@@ -193,30 +193,30 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl bg-white rounded-md shadow-2xl border border-slate-100 overflow-hidden my-auto transform transition-all animate-scaleIn"
+        className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-md shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden my-auto transform transition-all animate-scaleIn"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Glow Bar */}
         <div className="h-2 w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-500" />
 
         {/* Modal Header */}
-        <div className="p-6 pb-4 border-b border-slate-100 flex items-center justify-between">
+        <div className="p-6 pb-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center">
               <Layers size={18} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                 {room ? '✏️ แก้ไขห้องประชุม' : '✨ เพิ่มห้องประชุมใหม่'}
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 จัดการข้อมูลห้องประชุม อัปโหลดรูปภาพแกลเลอรี และอุปกรณ์อำนวยความสะดวก
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer"
           >
             <X size={16} />
           </button>
@@ -225,7 +225,7 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
         <form onSubmit={handleSubmit}>
           <div className="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
             {error && (
-              <div className="p-3.5 rounded-sm bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2 animate-shake">
+              <div className="p-3.5 rounded-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-400 text-xs flex items-center gap-2 animate-shake">
                 <AlertCircle size={16} className="shrink-0" />
                 <span>{error}</span>
               </div>
@@ -233,10 +233,10 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">รหัสห้อง (Code) *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">รหัสห้อง (Code) *</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   placeholder="เช่น MR-101"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
@@ -245,10 +245,10 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-700 mb-1">ชื่อห้องประชุม *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">ชื่อห้องประชุม *</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   placeholder="เช่น Sapphire Conference Hall"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -259,10 +259,10 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">ความจุสูงสุด (คน) *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">ความจุสูงสุด (คน) *</label>
                 <input
                   type="number"
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100"
                   min="1"
                   value={capacity}
                   onChange={(e) => setCapacity(parseInt(e.target.value, 10) || 1)}
@@ -271,10 +271,10 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">ชั้น / ตำแหน่ง</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">ชั้น / ตำแหน่ง</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   placeholder="เช่น ชั้น 3 อาคาร B"
                   value={floor}
                   onChange={(e) => setFloor(e.target.value)}
@@ -283,9 +283,9 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">คำอธิบายห้องประชุม</label>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">คำอธิบายห้องประชุม</label>
               <textarea
-                className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 rows={2}
                 placeholder="ระบุรายละเอียด เช่น เหมาะสำหรับการประชุมขนาดเล็ก การนำเสนองาน หรือระดมสมอง..."
                 value={description}
@@ -296,14 +296,14 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
             {/* ========================================================= */}
             {/* Multi-Image Upload Area (อัปโหลดไฟล์จริง)                */}
             {/* ========================================================= */}
-            <div className="space-y-3 p-4 rounded-md bg-slate-50 border border-slate-200/80">
+            <div className="space-y-3 p-4 rounded-md bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700">
               <div className="flex items-center justify-between flex-wrap gap-1">
                 <div>
-                  <label className="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <UploadCloud size={16} className="text-purple-600" />
+                  <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                    <UploadCloud size={16} className="text-purple-600 dark:text-purple-400" />
                     <span>อัปโหลดรูปภาพห้องประชุม ({images.length} รูป)</span>
                   </label>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     เลือกและอัปโหลดไฟล์รูปภาพจริงจากอุปกรณ์ โดยรูปแรกจะเป็นภาพหน้าปกหลัก (Cover)
                   </p>
                 </div>
@@ -323,8 +323,8 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                 }}
                 className={`border-2 border-dashed rounded-md p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
                   isDragging
-                    ? 'border-purple-600 bg-purple-50/80'
-                    : 'border-purple-200 hover:border-purple-500 bg-white hover:bg-purple-50/40'
+                    ? 'border-purple-600 bg-purple-50/80 dark:bg-purple-950/40'
+                    : 'border-purple-200 dark:border-purple-800/60 hover:border-purple-500 bg-white dark:bg-slate-800/90 hover:bg-purple-50/40 dark:hover:bg-slate-800'
                 } ${isUploading ? 'opacity-70 pointer-events-none' : ''}`}
               >
                 <input
@@ -341,14 +341,14 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                   }}
                 />
 
-                <div className="w-11 h-11 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center shadow-xs">
+                <div className="w-11 h-11 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center shadow-xs">
                   {isUploading ? <Loader2 size={22} className="animate-spin" /> : <UploadCloud size={24} />}
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-slate-800">
+                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
                     {isUploading ? 'กำลังอัปโหลดไฟล์...' : 'คลิกเพื่อเลือกไฟล์รูปภาพ หรือ ลากไฟล์มาวางที่นี่'}
                   </p>
-                  <p className="text-[11px] text-slate-400">รองรับไฟล์ PNG, JPG, WEBP (เลือกได้หลายไฟล์)</p>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">รองรับไฟล์ PNG, JPG, WEBP (เลือกได้หลายไฟล์)</p>
                 </div>
                 <button
                   type="button"
@@ -397,13 +397,13 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                   return (
                     <div
                       key={index}
-                      className={`relative group rounded-md overflow-hidden border bg-white shadow-xs transition-all ${
+                      className={`relative group rounded-md overflow-hidden border bg-white dark:bg-slate-800 shadow-xs transition-all ${
                         isPrimary
                           ? 'border-purple-500 ring-2 ring-purple-500/20 shadow-md'
-                          : 'border-slate-200 hover:border-slate-300'
+                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                       }`}
                     >
-                      <div className="w-full h-24 bg-slate-100 overflow-hidden relative">
+                      <div className="w-full h-24 bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
                         <img
                           src={imgUrl}
                           alt={`รูปที่ ${index + 1}`}
@@ -430,7 +430,7 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                             <button
                               type="button"
                               onClick={() => handleSetPrimary(index)}
-                              className="p-1 rounded-sm bg-white/95 hover:bg-purple-600 hover:text-white text-slate-700 shadow-xs cursor-pointer"
+                              className="p-1 rounded-sm bg-white/95 dark:bg-slate-800/95 hover:bg-purple-600 hover:text-white text-slate-700 dark:text-slate-200 shadow-xs cursor-pointer"
                               title="ตั้งเป็นรูปภาพหลัก"
                             >
                               <MoveUp size={12} />
@@ -439,7 +439,7 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
-                            className="p-1 rounded-sm bg-white/95 hover:bg-red-600 hover:text-white text-slate-700 shadow-xs cursor-pointer"
+                            className="p-1 rounded-sm bg-white/95 dark:bg-slate-800/95 hover:bg-red-600 hover:text-white text-slate-700 dark:text-slate-200 shadow-xs cursor-pointer"
                             title="ลบรูปภาพนี้"
                           >
                             <Trash2 size={12} />
@@ -447,13 +447,13 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                         </div>
                       </div>
 
-                      <div className="px-2 py-1 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                      <div className="px-2 py-1 bg-slate-50 dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
                         <span className="truncate max-w-[110px] font-mono">{imgUrl}</span>
                         {!isPrimary && (
                           <button
                             type="button"
                             onClick={() => handleSetPrimary(index)}
-                            className="text-purple-600 hover:text-purple-800 font-semibold cursor-pointer shrink-0 ml-1"
+                            className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 font-semibold cursor-pointer shrink-0 ml-1"
                           >
                             รูปหลัก
                           </button>
@@ -466,7 +466,7 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">อุปกรณ์ประจำห้อง</label>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">อุปกรณ์ประจำห้อง</label>
               <div className="grid grid-cols-2 gap-2">
                 {STANDARD_EQUIPMENT.map(eq => {
                   const isChecked = equipment.includes(eq);
@@ -474,14 +474,16 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                     <label
                       key={eq}
                       className={`flex items-center gap-2 p-2 rounded-sm border text-xs font-medium cursor-pointer transition-all ${
-                        isChecked ? 'bg-purple-50/80 border-purple-300 text-purple-700 font-semibold' : 'bg-slate-50 border-slate-200 text-slate-700'
+                        isChecked
+                          ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-300 dark:border-purple-800 text-purple-700 dark:text-purple-300 font-semibold'
+                          : 'bg-slate-50 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => toggleEquipment(eq)}
-                        className="w-3.5 h-3.5 text-purple-600 rounded border-slate-300"
+                        className="w-3.5 h-3.5 text-purple-600 rounded border-slate-300 dark:border-slate-600"
                       />
                       <span>{eq}</span>
                     </label>
@@ -496,17 +498,17 @@ export const RoomFormModal: React.FC<RoomFormModalProps> = ({ room, onClose, onS
                   type="checkbox"
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
-                  className="w-4 h-4 text-purple-600 rounded border-slate-300"
+                  className="w-4 h-4 text-purple-600 rounded border-slate-300 dark:border-slate-600"
                 />
-                <span className="text-xs font-semibold text-slate-800">เปิดให้จองใช้งาน (Active)</span>
+                <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">เปิดให้จองใช้งาน (Active)</span>
               </label>
             </div>
           </div>
 
-          <div className="p-4 bg-slate-50/70 border-t border-slate-100 flex items-center justify-end gap-2.5">
+          <div className="p-4 bg-slate-50/70 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-2.5">
             <button
               type="button"
-              className="px-4 py-2 rounded-sm text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-sm text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
               onClick={onClose}
               disabled={isSubmitting || isUploading}
             >

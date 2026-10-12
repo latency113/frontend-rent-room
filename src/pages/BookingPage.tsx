@@ -446,12 +446,12 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
   if (!user) {
     return (
-      <div className="max-w-lg mx-auto bg-white rounded-md border border-slate-200/80 p-8 sm:p-12 text-center shadow-xs animate-fadeIn my-12">
-        <div className="w-16 h-16 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4">
+      <div className="max-w-lg mx-auto bg-white dark:bg-slate-900 rounded-md border border-slate-200/80 dark:border-slate-800 p-8 sm:p-12 text-center shadow-xs animate-fadeIn my-12">
+        <div className="w-16 h-16 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto mb-4">
           <Calendar size={32} />
         </div>
-        <h2 className="text-xl font-bold text-slate-900 mb-2">กรุณาเข้าสู่ระบบ</h2>
-        <p className="text-xs sm:text-sm text-slate-500 mb-6 leading-relaxed">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">กรุณาเข้าสู่ระบบ</h2>
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
           คุณต้องเข้าสู่ระบบก่อนทำการจองห้องประชุม เพื่อให้สามารถตรวจสอบสถานะและรับการแจ้งเตือนได้
         </p>
         <div className="flex items-center justify-center gap-3">
@@ -463,7 +463,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
           </button>
           <button
             onClick={handleBack}
-            className="px-4 py-2.5 rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
+            className="px-4 py-2.5 rounded-sm bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
           >
             ย้อนกลับ
           </button>
@@ -474,12 +474,12 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
   if (isAdmin) {
     return (
-      <div className="max-w-lg mx-auto bg-white rounded-md border border-amber-200/80 p-8 sm:p-12 text-center shadow-xs animate-fadeIn my-12">
-        <div className="w-16 h-16 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4">
+      <div className="max-w-lg mx-auto bg-white dark:bg-slate-900 rounded-md border border-amber-200/80 dark:border-amber-800/60 p-8 sm:p-12 text-center shadow-xs animate-fadeIn my-12">
+        <div className="w-16 h-16 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-4">
           <Shield size={32} />
         </div>
-        <h2 className="text-xl font-bold text-slate-900 mb-2">บัญชีผู้ดูแลระบบ (Admin)</h2>
-        <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">บัญชีผู้ดูแลระบบ (Admin)</h2>
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
           ผู้ดูแลระบบไม่สามารถทำการจองห้องประชุมได้ เนื่องจากระบบสงวนสิทธิ์การส่งคำขอจองห้องประชุมสำหรับผู้ใช้งานทั่วไปเท่านั้น
         </p>
         <div className="flex items-center justify-center gap-3">
@@ -491,7 +491,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
           </button>
           <button
             onClick={handleBack}
-            className="px-4 py-2.5 rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
+            className="px-4 py-2.5 rounded-sm bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
           >
             ย้อนกลับ
           </button>
@@ -569,20 +569,20 @@ export const BookingPage: React.FC<BookingPageProps> = ({
         {/* Left Column: Form Inputs (7 Cols) */}
         <div className="lg:col-span-7 space-y-6">
           {/* Section 1: Room Selection & Meeting Details */}
-          <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
-              <div className="w-8 h-8 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center">
+          <div className="bg-white dark:bg-slate-900 rounded-md p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-5">
+            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="w-8 h-8 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <Building2 size={18} />
               </div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-base font-bold text-slate-900 dark:text-white">
                 1. เลือกห้องประชุมและรายละเอียดการใช้งาน
               </h2>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">ห้องประชุม *</label>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">ห้องประชุม *</label>
               <select
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all cursor-pointer font-medium"
+                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 dark:focus:ring-blue-500/20 outline-none transition-all cursor-pointer font-medium text-slate-900 dark:text-slate-100"
                 value={selectedRoom ? String(selectedRoom.id || selectedRoom.room_id) : selectedRoomId}
                 onChange={(e) => setSelectedRoomId(normalizeId(e.target.value))}
                 required
@@ -590,7 +590,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                 {rooms.map((r: Room) => {
                   const isAvailable = r.status !== undefined ? Number(r.status) === 1 : (r.is_active !== false);
                   return (
-                    <option key={r.id || r.room_id} value={String(r.id || r.room_id)} disabled={!isAvailable}>
+                    <option key={r.id || r.room_id} value={String(r.id || r.room_id)} disabled={!isAvailable} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
                       {r.name || r.room_name} ({r.code || `MR-${r.room_id || r.id}`}) — ความจุ {r.capacity} ที่นั่ง, {r.location_detail || r.floor || 'ชั้น 1'} {!isAvailable ? ' [ปิดปรับปรุง - ไม่สามารถจองได้]' : ''}
                     </option>
                   );
@@ -601,8 +601,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                 const isAvailable = selectedRoom ? (selectedRoom.status !== undefined ? Number(selectedRoom.status) === 1 : (selectedRoom.is_active !== false)) : true;
                 if (!isAvailable) {
                   return (
-                    <div className="p-3.5 rounded-sm bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2.5 mt-2.5">
-                      <AlertCircle size={18} className="shrink-0 text-rose-600" />
+                    <div className="p-3.5 rounded-sm bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs flex items-center gap-2.5 mt-2.5">
+                      <AlertCircle size={18} className="shrink-0 text-rose-600 dark:text-rose-400" />
                       <div>
                         <span className="font-bold">ห้องนี้อยู่ในสถานะปิดปรับปรุง:</span> ไม่สามารถทำรายการจองได้ในขณะนี้ กรุณาเปลี่ยนเป็นห้องประชุมอื่นที่พร้อมใช้งาน
                       </div>
@@ -614,10 +614,10 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">หัวข้อการประชุม / วัตถุประสงค์ *</label>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">หัวข้อการประชุม / วัตถุประสงค์ *</label>
               <input
                 type="text"
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
+                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 dark:focus:ring-blue-500/20 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 placeholder="เช่น การประชุมวางแผนประจำไตรมาส หรือ สัมมนาเชิงปฏิบัติการ"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -627,16 +627,16 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">วันที่ต้องการจอง *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">วันที่ต้องการจอง *</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                     <Calendar size={16} />
                   </div>
                   <input
                     type="date"
                     min={getTodayString()}
                     style={{ paddingLeft: '42px', height: '44px' }}
-                    className="w-full pr-3.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
+                    className="w-full pr-3.5 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 dark:focus:ring-blue-500/20 outline-none transition-all text-slate-900 dark:text-slate-100"
                     value={bookingDate}
                     onChange={(e) => setBookingDate(e.target.value)}
                     required
@@ -645,9 +645,9 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">จำนวนผู้เข้าร่วม (คน) *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">จำนวนผู้เข้าร่วม (คน) *</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                     <Users size={16} />
                   </div>
                   <input
@@ -655,14 +655,14 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                     min={1}
                     max={selectedRoom ? selectedRoom.capacity : 100}
                     style={{ paddingLeft: '42px', height: '44px' }}
-                    className="w-full pr-3.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
+                    className="w-full pr-3.5 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 dark:focus:ring-blue-500/20 outline-none transition-all text-slate-900 dark:text-slate-100"
                     value={attendeesCount}
                     onChange={(e) => setAttendeesCount(parseInt(e.target.value) || 1)}
                     required
                   />
                 </div>
                 {selectedRoom && attendeesCount > selectedRoom.capacity && (
-                  <p className="text-[11px] text-red-500 mt-1 font-medium">
+                  <p className="text-[11px] text-red-500 dark:text-red-400 mt-1 font-medium">
                     เกินความจุห้อง (ห้องนี้รองรับได้สูงสุด {selectedRoom.capacity} คน)
                   </p>
                 )}
@@ -671,15 +671,15 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">เวลาเริ่มต้น *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">เวลาเริ่มต้น *</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                     <Clock size={16} />
                   </div>
                   <input
                     type="time"
                     style={{ paddingLeft: '42px', height: '44px' }}
-                    className="w-full pr-3.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
+                    className="w-full pr-3.5 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 dark:focus:ring-blue-500/20 outline-none transition-all text-slate-900 dark:text-slate-100"
                     value={startTime}
                     onChange={(e) => setStartTime(e.target.value)}
                     required
@@ -688,15 +688,15 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">เวลาสิ้นสุด *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">เวลาสิ้นสุด *</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                     <Clock size={16} />
                   </div>
                   <input
                     type="time"
                     style={{ paddingLeft: '42px', height: '44px' }}
-                    className="w-full pr-3.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
+                    className="w-full pr-3.5 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 dark:focus:ring-blue-500/20 outline-none transition-all text-slate-900 dark:text-slate-100"
                     value={endTime}
                     onChange={(e) => setEndTime(e.target.value)}
                     required
@@ -707,23 +707,23 @@ export const BookingPage: React.FC<BookingPageProps> = ({
           </div>
 
           {/* Section 2: Equipment Selection with Quantity Specification */}
-          <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
-            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-              <div className="w-8 h-8 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <div className="bg-white dark:bg-slate-900 rounded-md p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="w-8 h-8 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                 <Layers size={18} />
               </div>
               <div>
-                <h2 className="text-base font-bold text-slate-900">
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">
                   2. เลือกอุปกรณ์ประจำห้องที่ต้องการใช้ (ระบุจำนวนได้)
                 </h2>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   ติ๊กเลือกอุปกรณ์ที่ต้องการ พร้อมปรับจำนวนชิ้นได้ตามการใช้งานจริง
                 </p>
               </div>
             </div>
 
             {equipmentSelections.length === 0 ? (
-              <div className="p-6 text-center text-slate-400 text-xs bg-slate-50 rounded-md">
+              <div className="p-6 text-center text-slate-400 dark:text-slate-500 text-xs bg-slate-50 dark:bg-slate-800/50 rounded-md">
                 ไม่มีอุปกรณ์ประจำห้องนี้ (สามารถระบุข้อกำหนดเพิ่มเติมด้านล่างได้)
               </div>
             ) : (
@@ -732,8 +732,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                   <div
                     key={eq.equipment_id}
                     className={`p-3.5 rounded-sm border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${eq.selected
-                        ? 'bg-emerald-50/60 border-emerald-300/80 shadow-xs'
-                        : 'bg-slate-50/70 border-slate-200/70 hover:bg-slate-50'
+                        ? 'bg-emerald-50/60 dark:bg-emerald-950/30 border-emerald-300/80 dark:border-emerald-700/60 shadow-xs'
+                        : 'bg-slate-50/70 dark:bg-slate-800/60 border-slate-200/70 dark:border-slate-700/70 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                   >
                     {/* Checkbox & Equipment Name */}
@@ -745,13 +745,13 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                         type="checkbox"
                         checked={eq.selected}
                         onChange={() => { }}
-                        className="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer"
+                        className="w-4 h-4 text-emerald-600 rounded border-slate-300 dark:border-slate-600 focus:ring-emerald-500 cursor-pointer"
                       />
                       <div>
-                        <div className={`text-sm font-bold ${eq.selected ? 'text-emerald-900' : 'text-slate-800'}`}>
+                        <div className={`text-sm font-bold ${eq.selected ? 'text-emerald-900 dark:text-emerald-300' : 'text-slate-800 dark:text-slate-200'}`}>
                           {eq.equipment_name}
                         </div>
-                        <div className="text-[11px] text-slate-500">
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400">
                           มีประจำห้อง {eq.default_quantity} ชิ้น
                         </div>
                       </div>
@@ -759,13 +759,13 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
                     {/* Quantity Stepper & Direct Input */}
                     <div className="flex items-center gap-2 self-end sm:self-center">
-                      <span className="text-xs text-slate-500 font-medium">จำนวนที่ขอใช้:</span>
-                      <div className={`flex items-center bg-white border ${eq.selected ? 'border-emerald-300 ring-1 ring-emerald-500/20' : 'border-slate-200'} rounded-sm overflow-hidden shadow-xs transition-colors`}>
+                      <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">จำนวนที่ขอใช้:</span>
+                      <div className={`flex items-center bg-white dark:bg-slate-800 border ${eq.selected ? 'border-emerald-300 dark:border-emerald-600/80 ring-1 ring-emerald-500/20' : 'border-slate-200 dark:border-slate-700'} rounded-sm overflow-hidden shadow-xs transition-colors`}>
                         <button
                           type="button"
                           disabled={!eq.selected || (eq.requested_quantity || 1) <= 1}
                           onClick={() => updateQuantity(eq.equipment_id, -1)}
-                          className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                          className="px-2.5 py-1.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                           title="ลดจำนวน"
                         >
                           <Minus size={13} />
@@ -787,19 +787,19 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                           }}
                           onChange={(e) => handleQuantityInput(eq.equipment_id, e.target.value)}
                           onBlur={() => handleQuantityBlur(eq.equipment_id)}
-                          className="w-14 text-center text-xs font-bold text-slate-800 bg-transparent py-1 border-x border-slate-200 focus:outline-none focus:bg-emerald-50/50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-14 text-center text-xs font-bold text-slate-800 dark:text-slate-100 bg-transparent py-1 border-x border-slate-200 dark:border-slate-700 focus:outline-none focus:bg-emerald-50/50 dark:focus:bg-emerald-950/40 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                           title="กรอกจำนวนที่ต้องการ"
                         />
                         <button
                           type="button"
                           onClick={() => updateQuantity(eq.equipment_id, 1)}
-                          className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                          className="px-2.5 py-1.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                           title="เพิ่มจำนวน"
                         >
                           <Plus size={13} />
                         </button>
                       </div>
-                      <span className="text-xs text-slate-500">ชิ้น</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">ชิ้น</span>
                     </div>
                   </div>
                 ))}
@@ -808,23 +808,23 @@ export const BookingPage: React.FC<BookingPageProps> = ({
           </div>
 
           {/* Section 3: หมายเหตุเพิ่มเติม / ข้อกำหนดพิเศษ (ถ้ามี) */}
-          <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
-            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-              <div className="w-8 h-8 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center">
+          <div className="bg-white dark:bg-slate-900 rounded-md p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="w-8 h-8 rounded-md bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 flex items-center justify-center">
                 <FileText size={18} />
               </div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-base font-bold text-slate-900 dark:text-white">
                 3. รายละเอียดเพิ่มเติม
               </h2>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                 หมายเหตุเพิ่มเติม / ข้อกำหนดพิเศษ (ถ้ามี)
               </label>
               <textarea
                 rows={4}
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all"
+                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 dark:hover:bg-slate-800 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 dark:focus:ring-blue-500/20 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 placeholder="เช่น ต้องการจัดโต๊ะแบบ Classroom, ขอสาย HDMI เพิ่มเติม, จัดเตรียมกาแฟรับรอง"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -838,7 +838,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               type="button"
               onClick={handleBack}
               disabled={isSubmitting}
-              className="px-5 py-2.5 rounded-sm text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200/80 transition-colors cursor-pointer"
+              className="px-5 py-2.5 rounded-sm text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 transition-colors cursor-pointer"
             >
               ยกเลิก
             </button>
@@ -851,7 +851,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                   className={`px-6 py-3 rounded-sm text-sm font-bold flex items-center gap-2 transition-all ${
                     isAvailable && !isSubmitting
                       ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 cursor-pointer'
-                      : 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed shadow-none'
+                      : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-300 dark:border-slate-700 cursor-not-allowed shadow-none'
                   }`}
                 >
                   <span>
@@ -873,8 +873,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
           {/* Room Preview Card */}
           {selectedRoom && (
-            <div className="bg-white rounded-md p-5 border border-slate-200/80 shadow-xs space-y-3.5">
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <div className="bg-white dark:bg-slate-900 rounded-md p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3.5">
+              <div className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                 ห้องประชุมที่เลือก
               </div>
 
@@ -898,17 +898,17 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
                   {selectedRoom.name || selectedRoom.room_name}
                 </h3>
-                <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
+                <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 mt-1">
                   <span className="flex items-center gap-1">
-                    <MapPin size={13} className="text-blue-500" />
+                    <MapPin size={13} className="text-blue-500 dark:text-blue-400" />
                     {selectedRoom.location_detail || selectedRoom.floor || 'ชั้น 1'}
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
-                    <Users size={13} className="text-blue-500" />
+                    <Users size={13} className="text-blue-500 dark:text-blue-400" />
                     สูงสุด {selectedRoom.capacity} ที่นั่ง
                   </span>
                 </div>
@@ -917,7 +917,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               <button
                 type="button"
                 onClick={() => handleViewDetail(selectedRoom)}
-                className="w-full py-2 px-3 rounded-sm text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100/70 border border-blue-200/60 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 px-3 rounded-sm text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100/70 dark:hover:bg-blue-900/50 border border-blue-200/60 dark:border-blue-800/60 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <span>ดูรายละเอียดห้องและอุปกรณ์</span>
               </button>
@@ -925,37 +925,37 @@ export const BookingPage: React.FC<BookingPageProps> = ({
           )}
 
           {/* Room Recent Bookings Schedule */}
-          <div className="bg-white rounded-md p-5 border border-slate-200/80 shadow-xs space-y-3.5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="bg-white dark:bg-slate-900 rounded-md p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3.5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center shadow-xs">
+                <div className="w-8 h-8 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shadow-xs">
                   <Clock size={16} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900 leading-tight">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
                     ตารางการจองล่าสุดของห้องนี้
                   </h3>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     {selectedRoom?.name || selectedRoom?.room_name || 'ห้องประชุม'}
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] font-bold text-blue-600 bg-blue-50 border border-blue-200/60 px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-800/60 px-2.5 py-0.5 rounded-full">
                 {roomBookings.length} รายการ
               </span>
             </div>
 
             {isLoadingBookings ? (
-              <div className="py-6 text-center text-slate-400 text-xs">
+              <div className="py-6 text-center text-slate-400 dark:text-slate-500 text-xs">
                 กำลังตรวจสอบตารางการจอง...
               </div>
             ) : roomBookings.length === 0 ? (
-              <div className="py-6 px-3 text-center bg-slate-50/70 rounded-md border border-dashed border-slate-200">
-                <Sparkles size={20} className="text-emerald-500 mx-auto mb-1.5" />
-                <div className="text-xs font-bold text-slate-800">
+              <div className="py-6 px-3 text-center bg-slate-50/70 dark:bg-slate-800/50 rounded-md border border-dashed border-slate-200 dark:border-slate-700">
+                <Sparkles size={20} className="text-emerald-500 dark:text-emerald-400 mx-auto mb-1.5" />
+                <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
                   ยังไม่มีการจองในเร็วๆ นี้
                 </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   ห้องนี้ว่างพร้อมให้คุณเลือกช่วงเวลาที่ต้องการได้ทันที
                 </p>
               </div>
@@ -964,16 +964,16 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                 {roomBookings.map((b) => (
                   <div
                     key={b.id}
-                    className="p-3 bg-slate-50/70 hover:bg-slate-100/70 border border-slate-200/60 rounded-md transition-all text-xs"
+                    className="p-3 bg-slate-50/70 dark:bg-slate-800/60 hover:bg-slate-100/70 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 rounded-md transition-all text-xs"
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <div className="font-bold text-slate-900 line-clamp-1">{b.title}</div>
+                      <div className="font-bold text-slate-900 dark:text-slate-100 line-clamp-1">{b.title}</div>
                       <span
                         className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${(b.status || '').toUpperCase() === 'APPROVED'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/60'
                             : (b.status || '').toUpperCase() === 'PENDING'
-                              ? 'bg-amber-50 text-amber-700 border border-amber-200/60'
-                              : 'bg-slate-100 text-slate-600 border border-slate-200'
+                              ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/60'
+                              : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
                           }`}
                       >
                         {(b.status || '').toUpperCase() === 'APPROVED'
@@ -984,15 +984,15 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-slate-500 text-[11px] mt-1.5">
-                      <Users size={12} className="text-slate-400 shrink-0" />
+                    <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-[11px] mt-1.5">
+                      <Users size={12} className="text-slate-400 dark:text-slate-500 shrink-0" />
                       <span className="line-clamp-1">
                         ผู้จอง: {b.booker_name || 'ไม่ระบุผู้จอง'} {b.department ? `(${b.department})` : ''}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-blue-700 font-medium text-[11px] mt-1">
-                      <Clock size={12} className="text-blue-500 shrink-0" />
+                    <div className="flex items-center gap-1.5 text-blue-700 dark:text-blue-400 font-medium text-[11px] mt-1">
+                      <Clock size={12} className="text-blue-500 dark:text-blue-400 shrink-0" />
                       <span>{b.booking_date} | {b.start_time} - {b.end_time} น.</span>
                     </div>
                   </div>
@@ -1002,29 +1002,29 @@ export const BookingPage: React.FC<BookingPageProps> = ({
           </div>
 
           {/* Booking Summary Card */}
-          <div className="bg-white rounded-md p-6 border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold text-slate-900 pb-3 border-b border-slate-100">
+          <div className="bg-white dark:bg-slate-900 rounded-md p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800">
               สรุปคำขอการจอง
             </h3>
 
             <div className="space-y-2.5 text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">วันที่:</span>
-                <span className="font-bold text-slate-800">{bookingDate || '-'}</span>
+                <span className="text-slate-500 dark:text-slate-400">วันที่:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{bookingDate || '-'}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">ช่วงเวลา:</span>
-                <span className="font-bold text-slate-800">{startTime} - {endTime} น.</span>
+                <span className="text-slate-500 dark:text-slate-400">ช่วงเวลา:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{startTime} - {endTime} น.</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">จำนวนผู้ร่วมประชุม:</span>
-                <span className="font-bold text-slate-800">{attendeesCount} คน</span>
+                <span className="text-slate-500 dark:text-slate-400">จำนวนผู้ร่วมประชุม:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{attendeesCount} คน</span>
               </div>
 
-              <div className="pt-3 border-t border-dashed border-slate-200 space-y-2">
-                <div className="text-slate-500 font-medium">อุปกรณ์ที่ขอใช้:</div>
+              <div className="pt-3 border-t border-dashed border-slate-200 dark:border-slate-800 space-y-2">
+                <div className="text-slate-500 dark:text-slate-400 font-medium">อุปกรณ์ที่ขอใช้:</div>
                 {equipmentSelections.filter(eq => eq.selected).length === 0 ? (
-                  <span className="text-slate-400 italic block">ไม่ได้เลือกอุปกรณ์เพิ่มเติม</span>
+                  <span className="text-slate-400 dark:text-slate-500 italic block">ไม่ได้เลือกอุปกรณ์เพิ่มเติม</span>
                 ) : (
                   <div className="flex flex-wrap gap-1.5">
                     {equipmentSelections
@@ -1032,7 +1032,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
                       .map(eq => (
                         <span
                           key={eq.equipment_id}
-                          className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"
+                          className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60"
                         >
                           {eq.equipment_name} ({eq.requested_quantity} ชิ้น)
                         </span>
@@ -1042,7 +1042,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
               </div>
             </div>
 
-            <div className="p-3 rounded-sm bg-amber-50/80 border border-amber-200/80 text-[11px] text-amber-800 flex items-start gap-2">
+            <div className="p-3 rounded-sm bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 text-[11px] text-amber-800 dark:text-amber-300 flex items-start gap-2">
               <p className="leading-relaxed">
                 คำขอจองจะถูกส่งไปยัง Admin เพื่ออนุมัติทันที คุณสามารถติดตามผลได้ในหน้า "การจองของฉัน"
               </p>

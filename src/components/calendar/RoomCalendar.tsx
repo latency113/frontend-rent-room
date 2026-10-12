@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 import { roomsApi } from '../../api/rooms.api';
+import { useTheme } from '../../context/ThemeContext';
 
 interface RoomCalendarProps {
   rooms?: Room[];
@@ -107,6 +108,9 @@ export const RoomCalendar: React.FC<RoomCalendarProps> = ({ rooms: propRooms, on
     a.start_time.localeCompare(b.start_time)
   );
 
+  const { actualTheme } = useTheme();
+  const isDark = actualTheme === 'dark';
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Top Filter and Controls Bar */}
@@ -195,7 +199,7 @@ export const RoomCalendar: React.FC<RoomCalendarProps> = ({ rooms: propRooms, on
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px' }}>
             {/* Empty slots before first day */}
             {Array.from({ length: firstDayOfMonth }).map((_, i) => (
-              <div key={`empty-${i}`} style={{ minHeight: '94px', background: '#fafafa', borderRadius: 'var(--radius-sm)' }} />
+              <div key={`empty-${i}`} style={{ minHeight: '94px', background: isDark ? '#0b0f19' : '#fafafa', borderRadius: 'var(--radius-sm)' }} />
             ))}
 
             {/* Actual Month Days */}
@@ -216,29 +220,29 @@ export const RoomCalendar: React.FC<RoomCalendarProps> = ({ rooms: propRooms, on
 
               // Styles based on booking status, selected, today, or past date
               let cellBorder = '1px solid var(--border-color)';
-              let cellBg = 'white';
+              let cellBg = isDark ? '#111827' : 'white';
               let numColor = 'var(--text-primary)';
 
               if (isPast) {
                 // Past days: grey tone
-                cellBorder = isSelected ? '2px solid #64748b' : hasBookings ? '1px solid #cbd5e1' : '1px solid #e2e8f0';
-                cellBg = isSelected ? '#e2e8f0' : hasBookings ? '#f1f5f9' : '#f8fafc';
-                numColor = hasBookings ? '#475569' : '#94a3b8';
+                cellBorder = isSelected ? '2px solid #64748b' : hasBookings ? (isDark ? '1px solid #334155' : '1px solid #cbd5e1') : (isDark ? '1px solid #1e293b' : '1px solid #e2e8f0');
+                cellBg = isSelected ? (isDark ? '#1e293b' : '#e2e8f0') : hasBookings ? (isDark ? '#161f30' : '#f1f5f9') : (isDark ? '#0d131f' : '#f8fafc');
+                numColor = hasBookings ? (isDark ? '#94a3b8' : '#475569') : '#64748b';
               } else if (hasApproved) {
                 // Booked and approved: vibrant emerald highlight
-                cellBorder = isSelected ? '2px solid #059669' : '1.5px solid #86efac';
-                cellBg = isSelected ? '#bbf7d0' : '#f0fdf4';
-                numColor = '#065f46';
+                cellBorder = isSelected ? '2px solid #059669' : (isDark ? '1.5px solid rgba(16, 185, 129, 0.4)' : '1.5px solid #86efac');
+                cellBg = isSelected ? (isDark ? 'rgba(16, 185, 129, 0.3)' : '#bbf7d0') : (isDark ? 'rgba(16, 185, 129, 0.12)' : '#f0fdf4');
+                numColor = isDark ? '#6ee7b7' : '#065f46';
               } else if (hasPending) {
                 // Pending booking: warm amber highlight
-                cellBorder = isSelected ? '2px solid #d97706' : '1.5px solid #fde68a';
-                cellBg = isSelected ? '#fde68a' : '#fffbeb';
-                numColor = '#92400e';
+                cellBorder = isSelected ? '2px solid #d97706' : (isDark ? '1.5px solid rgba(245, 158, 11, 0.4)' : '1.5px solid #fde68a');
+                cellBg = isSelected ? (isDark ? 'rgba(245, 158, 11, 0.3)' : '#fde68a') : (isDark ? 'rgba(245, 158, 11, 0.12)' : '#fffbeb');
+                numColor = isDark ? '#fcd34d' : '#92400e';
               } else if (isToday) {
                 // Today without bookings: blue highlight
-                cellBorder = isSelected ? '2px solid var(--primary)' : '1.5px solid #93c5fd';
-                cellBg = isSelected ? 'var(--primary-light)' : '#f0f9ff';
-                numColor = '#1d4ed8';
+                cellBorder = isSelected ? '2px solid var(--primary)' : (isDark ? '1.5px solid #3b82f6' : '1.5px solid #93c5fd');
+                cellBg = isSelected ? 'var(--primary-light)' : (isDark ? 'rgba(37, 99, 235, 0.15)' : '#f0f9ff');
+                numColor = isDark ? '#93c5fd' : '#1d4ed8';
               } else if (isSelected) {
                 // Selected future day
                 cellBorder = '2px solid var(--primary)';
@@ -453,12 +457,12 @@ export const RoomCalendar: React.FC<RoomCalendarProps> = ({ rooms: propRooms, on
                 justifyContent: 'center',
                 padding: '40px 20px',
                 textAlign: 'center',
-                background: '#f8fafc',
+                background: isDark ? '#111827' : '#f8fafc',
                 borderRadius: 'var(--radius-md)'
               }}
             >
-              <CalendarIcon size={36} color="#94a3b8" style={{ marginBottom: '12px' }} />
-              <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>ยังไม่มีรายการจองในวันนี้</div>
+              <CalendarIcon size={36} color={isDark ? '#64748b' : '#94a3b8'} style={{ marginBottom: '12px' }} />
+              <div style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-primary)' }}>ยังไม่มีรายการจองในวันนี้</div>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                 ห้องประชุมทุกห้องว่าง สามารถเลือกจองเวลาใดก็ได้
               </p>
@@ -472,7 +476,9 @@ export const RoomCalendar: React.FC<RoomCalendarProps> = ({ rooms: propRooms, on
                     padding: '14px',
                     borderRadius: 'var(--radius-md)',
                     border: '1px solid var(--border-color)',
-                    background: b.status === 'Approved' ? '#f0fdf4' : b.status === 'Pending' ? '#fffbeb' : '#fafafa',
+                    background: isDark
+                      ? (b.status === 'Approved' ? 'rgba(16, 185, 129, 0.12)' : b.status === 'Pending' ? 'rgba(245, 158, 11, 0.12)' : '#1e293b')
+                      : (b.status === 'Approved' ? '#f0fdf4' : b.status === 'Pending' ? '#fffbeb' : '#fafafa'),
                     borderLeft: `4px solid ${b.status === 'Approved' ? '#10b981' : b.status === 'Pending' ? '#f59e0b' : '#94a3b8'}`
                   }}
                 >

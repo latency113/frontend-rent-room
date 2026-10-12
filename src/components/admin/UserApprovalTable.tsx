@@ -184,7 +184,7 @@ export const UserApprovalTable: React.FC = () => {
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="px-2 py-1 text-xs rounded-sm border border-slate-300 bg-white focus:outline-none focus:border-purple-600 cursor-pointer"
+              className="px-2 py-1 text-xs rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:border-purple-600 cursor-pointer"
             >
               <option value="all">ทั้งหมด (All Roles)</option>
               <option value="user">ผู้ใช้งานทั่วไป (User)</option>
@@ -248,7 +248,7 @@ export const UserApprovalTable: React.FC = () => {
               </tr>
             ) : (
               filtered.map((u) => (
-                <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
+                <tr key={u.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
                   <td>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
@@ -260,7 +260,7 @@ export const UserApprovalTable: React.FC = () => {
                           <span style={{ fontSize: '0.725rem', color: 'var(--text-muted)' }}>ID: {u.id.slice(0, 8)}...</span>
                           {u.booking_count !== undefined && u.booking_count > 0 ? (
                             <span
-                              className="inline-flex items-center text-[10px] font-bold px-1.5 py-0.2 text-purple-700 bg-purple-50 border border-purple-200/80 rounded-sm"
+                              className="inline-flex items-center text-[10px] font-bold px-1.5 py-0.2 text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 border border-purple-200/80 dark:border-purple-800/60 rounded-sm"
                               title={`ผู้ใช้งานนี้มีรายการจองห้องประชุม ${u.booking_count} รายการ`}
                             >
                               จอง {u.booking_count} ครั้ง
@@ -271,25 +271,21 @@ export const UserApprovalTable: React.FC = () => {
                     </div>
                   </td>
                   <td>
-                    <span className="text-slate-600 font-medium">{u.email}</span>
+                    <span className="text-slate-600 dark:text-slate-300 font-medium">{u.email}</span>
                   </td>
                   <td>
-                    <div className="font-medium text-slate-700">{u.department || '-'}</div>
+                    <div className="font-medium text-slate-700 dark:text-slate-200">{u.department || '-'}</div>
                   </td>
                   <td>
-                    <span className="font-mono text-xs text-slate-600">{u.phone || '-'}</span>
+                    <span className="font-mono text-xs text-slate-600 dark:text-slate-400">{u.phone || '-'}</span>
                   </td>
                   <td>
                     <span
-                      style={{
-                        padding: '3px 9px',
-                        borderRadius: '9999px',
-                        fontSize: '0.725rem',
-                        fontWeight: 600,
-                        background: (u.role || '').toLowerCase() === 'admin' ? '#ede9fe' : '#f1f5f9',
-                        color: (u.role || '').toLowerCase() === 'admin' ? '#6d28d9' : '#475569',
-                        border: (u.role || '').toLowerCase() === 'admin' ? '1px solid #ddd6fe' : '1px solid #e2e8f0'
-                      }}
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${
+                        (u.role || '').toLowerCase() === 'admin'
+                          ? 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800/60'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                      }`}
                     >
                       {(u.role || '').toLowerCase() === 'admin' ? 'Admin' : 'User'}
                     </span>

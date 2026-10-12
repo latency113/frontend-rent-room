@@ -181,11 +181,11 @@ export const AdminBookingTable: React.FC = () => {
               </tr>
             ) : (
               filtered.map((b) => (
-                <tr key={b.id} className="hover:bg-slate-50/70 transition-colors">
+                <tr key={b.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
                   <td>
                     <div
                       onClick={() => setSelectedBookingForDetail(b)}
-                      className="font-bold text-slate-900 hover:text-purple-600 transition-colors cursor-pointer flex items-center gap-1.5"
+                      className="font-bold text-slate-900 dark:text-slate-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer flex items-center gap-1.5"
                       title="คลิกเพื่อดูรายละเอียด"
                     >
                       <span>{b.title}</span>
@@ -219,10 +219,10 @@ export const AdminBookingTable: React.FC = () => {
                         b.booking_equipments.map((eq, i) => (
                           <span
                             key={i}
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] bg-slate-100 text-slate-700 border border-slate-200/80"
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700"
                           >
                             <span>{eq.equipment_name || eq.equipment?.equipment_name}</span>
-                            <span className="font-bold text-purple-600 bg-purple-50 px-1 rounded">
+                            <span className="font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 px-1 rounded">
                               x{eq.requested_quantity || 1}
                             </span>
                           </span>
@@ -231,10 +231,10 @@ export const AdminBookingTable: React.FC = () => {
                         b.equipment.map((eq, i) => (
                           <span
                             key={i}
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] bg-slate-100 text-slate-700 border border-slate-200/80"
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700"
                           >
                             <span>{eq}</span>
-                            <span className="font-bold text-purple-600 bg-purple-50 px-1 rounded">x1</span>
+                            <span className="font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 px-1 rounded">x1</span>
                           </span>
                         ))
                       ) : (

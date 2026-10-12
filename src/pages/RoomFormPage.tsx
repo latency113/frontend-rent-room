@@ -267,8 +267,8 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
               <span>/</span>
               <span className="text-purple-600 font-semibold">{isEditing ? 'แก้ไขห้องประชุม' : 'เพิ่มห้องประชุมใหม่'}</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2 mt-0.5">
-              <span>{isEditing ? `แก้ไขข้อมูล: ${currentRoom?.name || ''}` : 'xเพิ่มห้องประชุมใหม่'}</span>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2 mt-0.5">
+              <span>{isEditing ? `แก้ไขข้อมูล: ${currentRoom?.name || ''}` : '✨ เพิ่มห้องประชุมใหม่'}</span>
             </h1>
           </div>
         </div>
@@ -277,7 +277,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
           <button
             type="button"
             onClick={handleBack}
-            className="px-4 py-2 rounded-sm text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-sm text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
           >
             ยกเลิก
           </button>
@@ -294,7 +294,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
       </div>
 
       {error && (
-        <div className="p-4 rounded-sm bg-red-50 border border-red-200 text-red-700 text-sm flex items-center gap-2.5 animate-shake">
+        <div className="p-4 rounded-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-400 text-sm flex items-center gap-2.5 animate-shake">
           <AlertCircle size={18} className="shrink-0" />
           <span>{error}</span>
         </div>
@@ -306,25 +306,25 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
         <div className="lg:col-span-8 space-y-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Card 1: ข้อมูลทั่วไป */}
-            <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
-                <div className="w-8 h-8 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-sm">
+            <div className="bg-white dark:bg-slate-900 rounded-md p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-5">
+              <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div className="w-8 h-8 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-sm">
                   1
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-slate-900">ข้อมูลพื้นฐานของห้องประชุม</h2>
-                  <p className="text-xs text-slate-500">ระบุรหัสห้อง ชื่อห้อง ขนาดความจุ และสถานที่ตั้ง</p>
+                  <h2 className="text-base font-bold text-slate-900 dark:text-white">ข้อมูลพื้นฐานของห้องประชุม</h2>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">ระบุรหัสห้อง ชื่อห้อง ขนาดความจุ และสถานที่ตั้ง</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     รหัสห้อง (Code) <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 focus:bg-white rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 focus:bg-white dark:focus:bg-slate-800 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                     placeholder="เช่น MR-101"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
@@ -333,12 +333,12 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     ชื่อห้องประชุม <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 focus:bg-white rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 focus:bg-white dark:focus:bg-slate-800 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                     placeholder="เช่น Sapphire Conference Hall หรือ ห้องประชุมแก้วเจ้าจอม"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -349,13 +349,13 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     ความจุสูงสุด (คน) <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
                     min="1"
-                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 focus:bg-white rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 focus:bg-white dark:focus:bg-slate-800 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100"
                     value={capacity}
                     onChange={(e) => setCapacity(parseInt(e.target.value, 10) || 1)}
                     required
@@ -363,10 +363,10 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">ชั้น / สถานที่ตั้ง</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">ชั้น / สถานที่ตั้ง</label>
                   <input
                     type="text"
-                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 focus:bg-white rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 focus:bg-white dark:focus:bg-slate-800 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                     placeholder="เช่น ชั้น 3 อาคารอำนวยการ"
                     value={floor}
                     onChange={(e) => setFloor(e.target.value)}
@@ -375,9 +375,9 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">คำอธิบายรายละเอียดห้อง</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">คำอธิบายรายละเอียดห้อง</label>
                 <textarea
-                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 focus:border-purple-600 focus:bg-white rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-purple-600 focus:bg-white dark:focus:bg-slate-800 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   rows={3}
                   placeholder="ระบุจุดเด่น บรรยากาศ หรือวัตถุประสงค์ที่เหมาะสม เช่น ห้องประชุมระดับพรีเมียม วิวมุมกว้าง เหมาะสำหรับการประชุมบอร์ดบริหาร..."
                   value={description}
@@ -386,7 +386,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
               </div>
 
               <div className="pt-2">
-                <label className="flex items-center gap-3 p-3 rounded-sm bg-slate-50 border border-slate-200/80 cursor-pointer hover:bg-slate-100/70 transition-colors">
+                <label className="flex items-center gap-3 p-3 rounded-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 cursor-pointer hover:bg-slate-100/70 dark:hover:bg-slate-800 transition-colors">
                   <input
                     type="checkbox"
                     checked={isActive}
@@ -394,26 +394,26 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                     className="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500"
                   />
                   <div>
-                    <span className="text-xs font-bold text-slate-800">เปิดให้จองใช้งาน (Active)</span>
-                    <p className="text-[11px] text-slate-500">หากปิดการใช้งาน ห้องนี้จะไม่ปรากฏให้ผู้ใช้ทั่วไปกดจองในระบบ</p>
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200">เปิดให้จองใช้งาน (Active)</span>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">หากปิดการใช้งาน ห้องนี้จะไม่ปรากฏให้ผู้ใช้ทั่วไปกดจองในระบบ</p>
                   </div>
                 </label>
               </div>
             </div>
 
             {/* Card 2: อัปโหลดรูปภาพห้องประชุมหลายรูป (File Upload & Drag-and-Drop) */}
-            <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
-              <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-100">
+            <div className="bg-white dark:bg-slate-900 rounded-md p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-5">
+              <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-sm">
+                  <div className="w-8 h-8 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-sm">
                     2
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                      <UploadCloud size={20} className="text-purple-600" />
+                    <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                      <UploadCloud size={20} className="text-purple-600 dark:text-purple-400" />
                       <span>อัปโหลดรูปภาพห้องประชุม ({images.length} รูป)</span>
                     </h2>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       อัปโหลดไฟล์รูปภาพจริงจากเครื่องคอมพิวเตอร์ของคุณ (เลือกได้หลายรูป) โดยรูปแรกจะเป็นภาพหน้าปกหลัก (Cover)
                     </p>
                   </div>
@@ -437,8 +437,8 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                 }}
                 className={`relative border-2 border-dashed rounded-md p-7 sm:p-9 text-center cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-3 ${
                   isDragging
-                    ? 'border-purple-600 bg-purple-50/80 scale-[1.01] shadow-inner'
-                    : 'border-purple-200 hover:border-purple-500 bg-gradient-to-b from-purple-50/30 to-slate-50/50 hover:bg-purple-50/60'
+                    ? 'border-purple-600 bg-purple-50/80 dark:bg-purple-950/40 scale-[1.01] shadow-inner'
+                    : 'border-purple-200 dark:border-purple-900/60 hover:border-purple-500 dark:hover:border-purple-400 bg-gradient-to-b from-purple-50/30 to-slate-50/50 dark:from-purple-950/20 dark:to-slate-900/40 hover:bg-purple-50/60 dark:hover:bg-purple-950/40'
                 } ${isUploading ? 'opacity-75 pointer-events-none' : ''}`}
               >
                 <input
@@ -455,19 +455,19 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                   }}
                 />
 
-                <div className="w-14 h-14 rounded-md bg-white shadow-md border border-purple-100 flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-md bg-white dark:bg-slate-800 shadow-md border border-purple-100 dark:border-slate-700 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform">
                   {isUploading ? (
-                    <Loader2 size={28} className="animate-spin text-purple-600" />
+                    <Loader2 size={28} className="animate-spin text-purple-600 dark:text-purple-400" />
                   ) : (
-                    <UploadCloud size={30} className="text-purple-600" />
+                    <UploadCloud size={30} className="text-purple-600 dark:text-purple-400" />
                   )}
                 </div>
 
                 <div>
-                  <p className="text-sm font-bold text-slate-800">
+                  <p className="text-sm font-bold text-slate-800 dark:text-slate-200">
                     {isUploading ? 'กำลังอัปโหลดรูปภาพเข้าสู่ระบบ กรุณารอสักครู่...' : 'คลิกเพื่อเลือกไฟล์รูปภาพ หรือ ลากไฟล์มาวางที่นี่'}
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                     รองรับไฟล์ JPG, PNG, WEBP, GIF (สามารถเลือกและอัปโหลดพร้อมกันได้หลายรูป)
                   </p>
                 </div>
@@ -486,18 +486,18 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                 <button
                   type="button"
                   onClick={() => setShowUrlInput(!showUrlInput)}
-                  className="text-xs text-purple-600 hover:text-purple-700 font-semibold flex items-center gap-1.5 cursor-pointer hover:underline"
+                  className="text-xs text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold flex items-center gap-1.5 cursor-pointer hover:underline"
                 >
                   <LinkIcon size={13} />
                   <span>{showUrlInput ? 'ซ่อนการระบุด้วย URL' : '+ หรือระบุรูปภาพด้วยลิงก์ URL / ตัวอย่าง HD'}</span>
                 </button>
 
                 {showUrlInput && (
-                  <div className="mt-3 p-4 rounded-md bg-slate-50 border border-slate-200/80 space-y-3 animate-fadeIn">
+                  <div className="mt-3 p-4 rounded-md bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 space-y-3 animate-fadeIn">
                     <div className="flex gap-2">
                       <input
                         type="url"
-                        className="flex-1 px-3.5 py-2 text-xs bg-white border border-slate-200 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all"
+                        className="flex-1 px-3.5 py-2 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:border-purple-600 rounded-sm focus:ring-2 focus:ring-purple-600/10 outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                         placeholder="วาง URL รูปภาพที่นี่ (เช่น https://images.unsplash.com/...)"
                         value={newImageUrl}
                         onChange={(e) => setNewImageUrl(e.target.value)}
@@ -520,7 +520,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
 
                     {/* Presets */}
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
+                      <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
                         <Sparkles size={11} className="text-amber-500" /> ตัวอย่าง:
                       </span>
                       {PRESET_SAMPLE_IMAGES.map((preset, idx) => (
@@ -528,7 +528,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                           key={idx}
                           type="button"
                           onClick={() => handleAddImage(preset.url)}
-                          className="text-[11px] px-2.5 py-1 rounded-sm bg-white border border-slate-200 hover:border-purple-300 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition-colors cursor-pointer"
+                          className="text-[11px] px-2.5 py-1 rounded-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/30 text-slate-600 dark:text-slate-300 hover:text-purple-700 dark:hover:text-purple-300 transition-colors cursor-pointer"
                         >
                           + {preset.label}
                         </button>
@@ -540,9 +540,9 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
 
               {/* Thumbnail Gallery Cards */}
               <div className="pt-2">
-                <div className="text-xs font-bold text-slate-700 mb-2.5 flex items-center justify-between">
+                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2.5 flex items-center justify-between">
                   <span>รูปภาพทั้งหมดที่เลือกไว้ ({images.length} รูป)</span>
-                  <span className="text-[11px] font-normal text-slate-400">รูปแรกซ้ายสุด = ภาพหน้าปก</span>
+                  <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500">รูปแรกซ้ายสุด = ภาพหน้าปก</span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -551,14 +551,14 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                     return (
                       <div
                         key={index}
-                        className={`relative group rounded-md overflow-hidden border bg-white shadow-xs transition-all ${
+                        className={`relative group rounded-md overflow-hidden border bg-white dark:bg-slate-800 shadow-xs transition-all ${
                           isPrimary
                             ? 'border-purple-500 ring-2 ring-purple-500/20 shadow-md'
-                            : 'border-slate-200 hover:border-slate-300'
+                            : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                         }`}
                       >
                         {/* Image Thumbnail Preview */}
-                        <div className="w-full h-32 bg-slate-100 overflow-hidden relative">
+                        <div className="w-full h-32 bg-slate-100 dark:bg-slate-900 overflow-hidden relative">
                           <img
                             src={imgUrl}
                             alt={`รูปที่ ${index + 1}`}
@@ -587,7 +587,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                               <button
                                 type="button"
                                 onClick={() => handleSetPrimary(index)}
-                                className="p-1.5 rounded-sm bg-white/95 hover:bg-purple-600 hover:text-white text-slate-700 shadow-sm transition-colors cursor-pointer"
+                                className="p-1.5 rounded-sm bg-white/95 dark:bg-slate-800 hover:bg-purple-600 hover:text-white text-slate-700 dark:text-slate-200 shadow-sm transition-colors cursor-pointer"
                                 title="เลื่อนขึ้นเป็นรูปภาพหลัก"
                               >
                                 <MoveUp size={14} />
@@ -596,7 +596,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                             <button
                               type="button"
                               onClick={() => handleRemoveImage(index)}
-                              className="p-1.5 rounded-sm bg-white/95 hover:bg-red-600 hover:text-white text-slate-700 shadow-sm transition-colors cursor-pointer"
+                              className="p-1.5 rounded-sm bg-white/95 dark:bg-slate-800 hover:bg-red-600 hover:text-white text-slate-700 dark:text-slate-200 shadow-sm transition-colors cursor-pointer"
                               title="ลบรูปภาพนี้"
                             >
                               <Trash2 size={14} />
@@ -605,13 +605,13 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                         </div>
 
                         {/* Footer Info */}
-                        <div className="px-3 py-2 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <div className="px-3 py-2 bg-slate-50 dark:bg-slate-800/90 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                           <span className="truncate max-w-[130px] font-mono text-[11px]">{imgUrl}</span>
                           {!isPrimary && (
                             <button
                               type="button"
                               onClick={() => handleSetPrimary(index)}
-                              className="text-purple-600 hover:text-purple-800 font-semibold cursor-pointer shrink-0 ml-1 text-xs"
+                              className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 font-semibold cursor-pointer shrink-0 ml-1 text-xs"
                             >
                               ตั้งเป็นรูปหลัก
                             </button>
@@ -625,14 +625,14 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
             </div>
 
             {/* Card 3: อุปกรณ์ประจำห้อง */}
-            <div className="bg-white rounded-md p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
-                <div className="w-8 h-8 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-sm">
+            <div className="bg-white dark:bg-slate-900 rounded-md p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+              <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div className="w-8 h-8 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-sm">
                   3
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-slate-900">อุปกรณ์ประจำห้องประชุม</h2>
-                  <p className="text-xs text-slate-500">เลือกอุปกรณ์และสิ่งอำนวยความสะดวกที่มีพร้อมใช้งานในห้องนี้</p>
+                  <h2 className="text-base font-bold text-slate-900 dark:text-white">อุปกรณ์ประจำห้องประชุม</h2>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">เลือกอุปกรณ์และสิ่งอำนวยความสะดวกที่มีพร้อมใช้งานในห้องนี้</p>
                 </div>
               </div>
 
@@ -644,8 +644,8 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                       key={eq}
                       className={`flex items-center justify-between p-3.5 rounded-sm border text-sm font-semibold cursor-pointer transition-all ${
                         isChecked
-                          ? 'bg-purple-50/90 border-purple-300 text-purple-800 shadow-xs'
-                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                          ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-300 dark:border-purple-800 text-purple-800 dark:text-purple-200 shadow-xs'
+                          : 'bg-slate-50 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -657,7 +657,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
                         />
                         <span>{eq}</span>
                       </div>
-                      {isChecked && <Check size={16} className="text-purple-600" />}
+                      {isChecked && <Check size={16} className="text-purple-600 dark:text-purple-400" />}
                     </label>
                   );
                 })}
@@ -668,14 +668,14 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
 
         {/* Live Preview Sidebar (4 Cols) */}
         <div className="lg:col-span-4 sticky top-24 space-y-4">
-          <div className="bg-white rounded-md p-5 border border-slate-200/80 shadow-xs space-y-4">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
-              <Eye size={15} className="text-purple-600" />
+          <div className="bg-white dark:bg-slate-900 rounded-md p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+              <Eye size={15} className="text-purple-600 dark:text-purple-400" />
               <span>ตัวอย่างการแสดงผล (Live Preview)</span>
             </div>
 
             {/* Mock RoomCard */}
-            <div className="bg-slate-50/70 rounded-md border border-slate-200 overflow-hidden shadow-xs">
+            <div className="bg-slate-50/70 dark:bg-slate-800/60 rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xs">
               <div className="relative w-full h-44 bg-slate-900 overflow-hidden">
                 <img
                   src={coverImage}
@@ -705,32 +705,32 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
 
               <div className="p-4 space-y-3">
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base">{name || 'ชื่อห้องประชุม'}</h3>
-                  <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base">{name || 'ชื่อห้องประชุม'}</h3>
+                  <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 mt-1">
                     <span className="flex items-center gap-1">
-                      <Users size={13} className="text-purple-600" />
+                      <Users size={13} className="text-purple-600 dark:text-purple-400" />
                       <span>{capacity} คน</span>
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <MapPin size={13} className="text-purple-600" />
+                      <MapPin size={13} className="text-purple-600 dark:text-purple-400" />
                       <span>{floor || 'ชั้น 1'}</span>
                     </span>
                   </div>
                 </div>
 
                 {description && (
-                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
                     {description}
                   </p>
                 )}
 
                 {equipment.length > 0 && (
-                  <div className="pt-2 border-t border-slate-200/60">
-                    <div className="text-[11px] font-semibold text-slate-500 mb-1.5">อุปกรณ์ประจำห้อง:</div>
+                  <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700">
+                    <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1.5">อุปกรณ์ประจำห้อง:</div>
                     <div className="flex flex-wrap gap-1">
                       {equipment.map(eq => (
-                        <span key={eq} className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-semibold border border-purple-200/70">
+                        <span key={eq} className="px-2 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-[10px] font-semibold border border-purple-200/70 dark:border-purple-800">
                           {eq}
                         </span>
                       ))}
@@ -755,7 +755,7 @@ export const RoomFormPage: React.FC<RoomFormPageProps> = ({ room: propRoom, onBa
               <button
                 type="button"
                 onClick={handleBack}
-                className="w-full py-2.5 rounded-sm text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer text-center"
+                className="w-full py-2.5 rounded-sm text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer text-center"
               >
                 ย้อนกลับ
               </button>

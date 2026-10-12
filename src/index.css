@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   --font-family: 'Prompt', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
@@ -60,6 +62,49 @@
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark,
+:root.dark,
+html.dark {
+  /* Surfaces & Backgrounds */
+  --bg-app: #0b0f19;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #1f293d;
+  --border-color: #1e293b;
+  --border-focus: #60a5fa;
+
+  /* Text Colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0b0f19;
+
+  /* Neutral & Light adaptations */
+  --neutral-gray: #94a3b8;
+  --neutral-light: #1e293b;
+
+  /* Brand overrides */
+  --primary-light: rgba(37, 99, 235, 0.18);
+
+  /* Status Colors Dark */
+  --success-light: rgba(16, 185, 129, 0.15);
+  --success-border: rgba(16, 185, 129, 0.35);
+
+  --warning-light: rgba(245, 158, 11, 0.15);
+  --warning-border: rgba(245, 158, 11, 0.35);
+
+  --danger-light: rgba(239, 68, 68, 0.15);
+  --danger-border: rgba(239, 68, 68, 0.35);
+
+  --info-light: rgba(2, 132, 199, 0.15);
+  --info-border: rgba(2, 132, 199, 0.35);
+
+  /* Shadows Dark */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
 }
 
 /* Input with icon helpers - guaranteed offsets across all browsers */
@@ -781,4 +826,176 @@ body {
   border-width: 3px !important;
   transform: scale(0.9) !important;
 }
+
+/* SweetAlert2 Dark Mode Overrides */
+.dark .swal2-custom-popup {
+  background: #111827 !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark .swal2-custom-title {
+  color: #f8fafc !important;
+}
+
+.dark .swal2-custom-html {
+  color: #94a3b8 !important;
+}
+
+.dark .swal2-custom-input {
+  color: #f8fafc !important;
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.dark .swal2-custom-input:focus {
+  background: #1e293b !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important;
+}
+
+.dark .swal2-custom-cancel-btn {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+.dark .swal2-custom-cancel-btn:hover {
+  background: #334155 !important;
+  color: #f8fafc !important;
+}
+
+/* Dark mode scrollbars */
+.dark ::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Dark mode specific component fine-tuning */
+html.dark {
+  color-scheme: dark;
+}
+
+.dark .navbar {
+  background: rgba(17, 24, 39, 0.85);
+  border-bottom-color: #1e293b;
+}
+
+.dark .card {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+}
+
+.dark .card:hover {
+  border-color: #334155;
+}
+
+.dark .btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.dark .btn-secondary:hover {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+/* Data Table Dark Mode */
+.dark .data-table-container {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+}
+
+.dark .data-table th {
+  background-color: #162032;
+  color: var(--text-secondary);
+  border-bottom-color: var(--border-color);
+}
+
+.dark .data-table td {
+  color: var(--text-primary);
+  border-bottom-color: var(--border-color);
+}
+
+.dark .data-table tr:hover td {
+  background-color: #1a2333;
+}
+
+/* Form Controls Dark Mode */
+.dark .form-control {
+  background-color: #162032;
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.dark .form-control:focus {
+  background-color: #162032;
+  border-color: var(--border-focus);
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.85) hue-rotate(180deg);
+  cursor: pointer;
+}
+
+/* Badges Dark Mode */
+.dark .badge-pending {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.dark .badge-approved {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.dark .badge-rejected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.dark .badge-cancelled {
+  background: rgba(100, 116, 139, 0.18);
+  color: #94a3b8;
+  border-color: rgba(100, 116, 139, 0.35);
+}
+
+/* Stat Cards Dark Mode */
+.dark .stat-card {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+}
+
+.dark .stat-icon {
+  background-color: #1f293d !important;
+}
+
+/* User Profile Badge Dark Mode */
+.dark .user-profile-badge {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+}
+
+/* Equipment Pill Dark Mode */
+.dark .equipment-pill {
+  background-color: var(--neutral-light);
+  color: var(--text-secondary);
+}
+
+/* Room Card Dark Mode */
+.dark .room-card-footer {
+  border-top-color: var(--border-color);
+}
+
+
 

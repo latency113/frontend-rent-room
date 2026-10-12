@@ -226,16 +226,16 @@ export const RoomsPage: React.FC<RoomsPageProps> = ({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-md p-4 sm:p-5 border border-slate-200/80 shadow-xs flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-md p-4 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between mb-8 transition-colors">
         {/* Search Input */}
         <div className="relative flex-1 min-w-[280px]">
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
             <Search size={18} />
           </div>
           <input
             type="text"
             style={{ paddingLeft: '44px', height: '44px' }}
-            className="w-full pr-4 text-sm bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400"
+            className="w-full pr-4 text-sm bg-slate-50 dark:bg-slate-800/90 hover:bg-slate-50/80 focus:bg-white dark:focus:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:border-blue-600 dark:focus:border-blue-500 rounded-sm focus:ring-4 focus:ring-blue-600/10 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
             placeholder="ค้นหาชื่อห้อง, รหัสห้อง เช่น MR-101, Sapphire..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
@@ -245,33 +245,33 @@ export const RoomsPage: React.FC<RoomsPageProps> = ({
         {/* Filters Group */}
         <div className="flex flex-wrap items-center gap-3">
           {/* Capacity Filter */}
-          <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-sm border border-slate-200/80">
-            <SlidersHorizontal size={15} className="text-slate-500" />
-            <span className="text-xs font-semibold text-slate-600">ความจุ:</span>
+          <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/90 px-3 py-2 rounded-sm border border-slate-200/80 dark:border-slate-700">
+            <SlidersHorizontal size={15} className="text-slate-500 dark:text-slate-400" />
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">ความจุ:</span>
             <select
-              className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer"
+              className="bg-transparent text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none cursor-pointer"
               value={capacityFilter}
               onChange={e => setCapacityFilter(e.target.value)}
             >
-              <option value="All">ทุกขนาด</option>
-              <option value="small">เล็ก (1 - 12 ที่นั่ง)</option>
-              <option value="medium">กลาง (13 - 30 ที่นั่ง)</option>
-              <option value="large">ใหญ่ (&gt; 30 ที่นั่ง)</option>
+              <option value="All" className="dark:bg-slate-900 dark:text-slate-100">ทุกขนาด</option>
+              <option value="small" className="dark:bg-slate-900 dark:text-slate-100">เล็ก (1 - 12 ที่นั่ง)</option>
+              <option value="medium" className="dark:bg-slate-900 dark:text-slate-100">กลาง (13 - 30 ที่นั่ง)</option>
+              <option value="large" className="dark:bg-slate-900 dark:text-slate-100">ใหญ่ (&gt; 30 ที่นั่ง)</option>
             </select>
           </div>
 
           {/* Equipment Filter */}
-          <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-sm border border-slate-200/80">
-            <Filter size={15} className="text-slate-500" />
-            <span className="text-xs font-semibold text-slate-600">อุปกรณ์:</span>
+          <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/90 px-3 py-2 rounded-sm border border-slate-200/80 dark:border-slate-700">
+            <Filter size={15} className="text-slate-500 dark:text-slate-400" />
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">อุปกรณ์:</span>
             <select
-              className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer"
+              className="bg-transparent text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none cursor-pointer"
               value={selectedEquipment}
               onChange={e => setSelectedEquipment(e.target.value)}
             >
-              <option value="All">อุปกรณ์ทั้งหมด</option>
+              <option value="All" className="dark:bg-slate-900 dark:text-slate-100">อุปกรณ์ทั้งหมด</option>
               {STANDARD_EQUIPMENT.map(eq => (
-                <option key={eq} value={eq}>{eq}</option>
+                <option key={eq} value={eq} className="dark:bg-slate-900 dark:text-slate-100">{eq}</option>
               ))}
             </select>
           </div>
@@ -282,15 +282,15 @@ export const RoomsPage: React.FC<RoomsPageProps> = ({
       {isLoading ? (
         <div className="py-24 text-center">
           <Loader2 className="w-10 h-10 animate-spin text-blue-600 mx-auto mb-3" />
-          <p className="text-sm text-slate-500 font-medium">กำลังโหลดข้อมูลห้องประชุม...</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">กำลังโหลดข้อมูลห้องประชุม...</p>
         </div>
       ) : filteredRooms.length === 0 ? (
-        <div className="bg-white rounded-md border border-slate-200/80 p-12 text-center max-w-lg mx-auto shadow-xs">
-          <div className="w-16 h-16 rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
+        <div className="bg-white dark:bg-slate-900 rounded-md border border-slate-200/80 dark:border-slate-800 p-12 text-center max-w-lg mx-auto shadow-xs">
+          <div className="w-16 h-16 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center mx-auto mb-4">
             <Building2 size={32} />
           </div>
-          <h3 className="text-base font-bold text-slate-900 mb-1">ไม่พบห้องประชุมที่ตรงกับเงื่อนไข</h3>
-          <p className="text-xs text-slate-500 mb-5">
+          <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">ไม่พบห้องประชุมที่ตรงกับเงื่อนไข</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
             ลองปรับเปลี่ยนคำค้นหา หรือเลือกตัวกรองอุปกรณ์และขนาดห้องใหม่
           </p>
           <button
@@ -299,7 +299,7 @@ export const RoomsPage: React.FC<RoomsPageProps> = ({
               setSelectedEquipment('All');
               setCapacityFilter('All');
             }}
-            className="px-4 py-2 rounded-sm text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-sm text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
           >
             ล้างตัวกรองทั้งหมด
           </button>

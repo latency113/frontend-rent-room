@@ -88,13 +88,33 @@ export const ReportView: React.FC<ReportViewProps> = ({ rooms }) => {
         }}
       >
         <div>
-          <h2 style={{ fontSize: '1.35rem', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <FileText size={24} color="#2563eb" />
+          <h2 className="text-xl font-bold flex items-center gap-2 text-slate-900 dark:text-white m-0">
+            <FileText size={24} className="text-blue-600 dark:text-blue-400" />
             <span>ระบบรายงานการจองห้องประชุม</span>
           </h2>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '4px 0 0' }}>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 mb-0">
             สรุปข้อมูลสถิติ ค้นหา และวิเคราะห์การใช้งานห้องประชุมขององค์กร
           </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleExportCSV}
+            className="btn btn-secondary btn-sm flex items-center gap-1.5 cursor-pointer"
+            title="ดาวน์โหลดเป็นไฟล์ CSV"
+          >
+            <Download size={15} />
+            <span>ส่งออก CSV</span>
+          </button>
+          <button
+            type="button"
+            onClick={handlePrint}
+            className="btn btn-secondary btn-sm flex items-center gap-1.5 cursor-pointer"
+            title="พิมพ์หน้ารายงาน"
+          >
+            <Printer size={15} />
+            <span>พิมพ์รายงาน</span>
+          </button>
         </div>
       </div>
 
@@ -102,68 +122,68 @@ export const ReportView: React.FC<ReportViewProps> = ({ rooms }) => {
       <div className="stats-grid">
         <div className="stat-card">
           <div>
-            <div className="stat-value" style={{ color: '#2563eb' }}>
+            <div className="stat-value text-blue-600 dark:text-blue-400">
               {report?.totalBookings ?? 0}
             </div>
             <div className="stat-label">การจองทั้งหมด</div>
           </div>
-          <div className="stat-icon" style={{ background: '#eff6ff', color: '#2563eb' }}>
+          <div className="stat-icon bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
             <Calendar size={24} />
           </div>
         </div>
 
         <div className="stat-card">
           <div>
-            <div className="stat-value" style={{ color: '#10b981' }}>
+            <div className="stat-value text-emerald-600 dark:text-emerald-400">
               {report?.approvedCount ?? 0}
             </div>
             <div className="stat-label">อนุมัติแล้ว (Approved)</div>
           </div>
-          <div className="stat-icon" style={{ background: '#ecfdf5', color: '#10b981' }}>
+          <div className="stat-icon bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
             <CheckCircle2 size={24} />
           </div>
         </div>
 
         <div className="stat-card">
           <div>
-            <div className="stat-value" style={{ color: '#f59e0b' }}>
+            <div className="stat-value text-amber-500 dark:text-amber-400">
               {report?.pendingCount ?? 0}
             </div>
             <div className="stat-label">รออนุมัติ (Pending)</div>
           </div>
-          <div className="stat-icon" style={{ background: '#fffbeb', color: '#f59e0b' }}>
+          <div className="stat-icon bg-amber-50 dark:bg-amber-950/60 text-amber-500 dark:text-amber-400">
             <Clock size={24} />
           </div>
         </div>
 
         <div className="stat-card">
           <div>
-            <div className="stat-value" style={{ color: '#ef4444' }}>
+            <div className="stat-value text-red-600 dark:text-red-400">
               {report?.rejectedCount ?? 0}
             </div>
             <div className="stat-label">ถูกปฏิเสธ (Rejected)</div>
           </div>
-          <div className="stat-icon" style={{ background: '#fef2f2', color: '#ef4444' }}>
+          <div className="stat-icon bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400">
             <XCircle size={24} />
           </div>
         </div>
 
         <div className="stat-card">
           <div>
-            <div className="stat-value" style={{ color: '#6366f1' }}>
+            <div className="stat-value text-indigo-600 dark:text-indigo-400">
               {report?.approvalRatePercentage ?? 100}%
             </div>
             <div className="stat-label">อัตราการอนุมัติ</div>
           </div>
-          <div className="stat-icon" style={{ background: '#e0e7ff', color: '#6366f1' }}>
+          <div className="stat-icon bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
             <TrendingUp size={24} />
           </div>
         </div>
       </div>
 
       {/* Advanced Filters */}
-      <div className="card" style={{ padding: '20px' }}>
-        <div style={{ fontSize: '0.9rem', fontWeight: 700, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <div className="card p-5">
+        <div className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-1.5">
           <Filter size={16} />
           <span>ตัวกรองและเงื่อนไขรายงาน</span>
         </div>
@@ -241,24 +261,24 @@ export const ReportView: React.FC<ReportViewProps> = ({ rooms }) => {
       </div>
 
       {/* Visual Analytics Grid: By Room & By Department */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* By Room Breakdown */}
-        <div className="card" style={{ padding: '20px' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Building size={18} color="#2563eb" />
+        <div className="card p-5">
+          <h3 className="text-base font-bold mb-3.5 flex items-center gap-2 text-slate-900 dark:text-white">
+            <Building size={18} className="text-blue-600 dark:text-blue-400" />
             <span>สถิติการใช้งานแยกตามห้องประชุม</span>
           </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div className="flex flex-col gap-3">
             {report?.byRoom.map(item => (
               <div key={item.roomId}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '4px' }}>
-                  <span style={{ fontWeight: 600 }}>{item.roomName}</span>
-                  <span style={{ color: 'var(--text-secondary)' }}>
+                <div className="flex justify-between text-xs sm:text-sm mb-1">
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">{item.roomName}</span>
+                  <span className="text-slate-500 dark:text-slate-400">
                     {item.count} ครั้ง ({item.percentage}%)
                   </span>
                 </div>
-                <div style={{ width: '100%', height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                <div className="w-full h-2 bg-slate-100 dark:bg-slate-700/80 rounded-full overflow-hidden">
                   <div
                     style={{
                       width: `${item.percentage}%`,
@@ -274,42 +294,27 @@ export const ReportView: React.FC<ReportViewProps> = ({ rooms }) => {
         </div>
 
         {/* By Department Breakdown */}
-        <div className="card" style={{ padding: '20px' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Users size={18} color="#10b981" />
+        <div className="card p-5">
+          <h3 className="text-base font-bold mb-3.5 flex items-center gap-2 text-slate-900 dark:text-white">
+            <Users size={18} className="text-emerald-600 dark:text-emerald-400" />
             <span>สถิติการจองแยกตามแผนก</span>
           </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="flex flex-col gap-2.5">
             {report?.byDepartment && report.byDepartment.length > 0 ? (
               report.byDepartment.map((item, idx) => (
                 <div
                   key={idx}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: '#f8fafc',
-                    borderRadius: 'var(--radius-md)'
-                  }}
+                  className="flex items-center justify-between p-2.5 px-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/60 rounded-md"
                 >
-                  <span style={{ fontSize: '0.875rem', fontWeight: 600 }}>{item.department}</span>
-                  <span
-                    style={{
-                      background: '#e2e8f0',
-                      padding: '2px 8px',
-                      borderRadius: 'var(--radius-full)',
-                      fontSize: '0.775rem',
-                      fontWeight: 700
-                    }}
-                  >
+                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">{item.department}</span>
+                  <span className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-2 py-0.5 rounded-full text-xs font-bold">
                     {item.count} ครั้ง
                   </span>
                 </div>
               ))
             ) : (
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textAlign: 'center', padding: '20px' }}>
+              <div className="text-slate-400 dark:text-slate-500 text-xs sm:text-sm text-center py-5">
                 ไม่มีข้อมูลแผนก
               </div>
             )}
@@ -318,13 +323,13 @@ export const ReportView: React.FC<ReportViewProps> = ({ rooms }) => {
       </div>
 
       {/* Filtered Bookings Table */}
-      <div className="card" style={{ padding: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+      <div className="card p-5">
+        <div className="flex justify-between items-center mb-4">
           <div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white m-0">
               ตารางรายละเอียดการจองห้องประชุม
             </h3>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            <span className="text-xs text-slate-500 dark:text-slate-400">
               แสดงผลทั้งหมด {report?.bookings.length ?? 0} รายการ
             </span>
           </div>

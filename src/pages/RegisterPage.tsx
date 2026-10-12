@@ -115,22 +115,10 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) =
 
         {isSuccess ? (
           <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <div
-              style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: '#ecfdf5',
-                color: '#10b981',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '16px'
-              }}
-            >
+            <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 inline-flex items-center justify-center mb-4">
               <CheckCircle2 size={36} />
             </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#065f46', marginBottom: '8px' }}>
+            <h3 className="text-lg font-bold text-emerald-800 dark:text-emerald-300 mb-2">
               สมัครสมาชิกสำเร็จ!
             </h3>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '20px' }}>
@@ -144,38 +132,12 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) =
         ) : (
           <>
             {/* Notice banner */}
-            <div
-              style={{
-                padding: '10px 14px',
-                background: '#fffbeb',
-                border: '1px solid #fde68a',
-                borderRadius: 'var(--radius-md)',
-                color: '#b45309',
-                fontSize: '0.8rem',
-                marginBottom: '18px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
+            <div className="p-3 px-3.5 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-md text-amber-800 dark:text-amber-300 text-xs mb-4.5 flex items-center gap-2">
               <span>หลังสมัครสมาชิก บัญชีของคุณจะต้องรอการอนุมัติจาก Admin ก่อนจึงจะสามารถล็อกอินได้</span>
             </div>
 
             {error && (
-              <div
-                style={{
-                  padding: '10px 14px',
-                  background: '#fef2f2',
-                  border: '1px solid #fecaca',
-                  borderRadius: 'var(--radius-md)',
-                  color: '#b91c1c',
-                  fontSize: '0.85rem',
-                  marginBottom: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
+              <div className="p-3 px-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-md mb-4 flex items-center gap-2">
                 <AlertCircle size={16} />
                 <span>{error}</span>
               </div>

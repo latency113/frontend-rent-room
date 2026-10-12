@@ -141,17 +141,17 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   // Auth protection guard
   if (!isAdmin) {
     return (
-      <div className="max-w-md mx-auto bg-white rounded-md border border-slate-200/80 p-8 text-center shadow-xs my-12 animate-fadeIn">
-        <div className="w-14 h-14 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4">
+      <div className="max-w-md mx-auto bg-white dark:bg-slate-900 rounded-md border border-slate-200/80 dark:border-slate-800 p-8 text-center shadow-xs my-12 animate-fadeIn transition-colors">
+        <div className="w-14 h-14 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-4">
           <AlertTriangle size={28} />
         </div>
-        <h2 className="text-lg font-bold text-slate-900 mb-1">ไม่มีสิทธิ์เข้าถึงหน้านี้</h2>
-        <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">ไม่มีสิทธิ์เข้าถึงหน้านี้</h2>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
           หน้านี้สงวนสิทธิ์เฉพาะผู้ดูแลระบบ (Admin) เท่านั้น หากคุณต้องการใช้งาน กรุณาเข้าสู่ระบบด้วยบัญชีผู้ดูแลระบบ
         </p>
         <button
           onClick={() => navigate({ to: '/rooms' as any })}
-          className="px-4 py-2 rounded-sm bg-blue-600 text-white font-semibold text-xs flex items-center justify-center gap-2 mx-auto cursor-pointer"
+          className="px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs flex items-center justify-center gap-2 mx-auto cursor-pointer"
         >
           <ArrowLeft size={14} />
           <span>กลับไปยังหน้ารายการห้องประชุม</span>
@@ -187,7 +187,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'requests'
               ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
           }`}
           onClick={() => navigate({ to: '/admin/bookings' as any })}
         >
@@ -199,7 +199,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'users'
               ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
           }`}
           onClick={() => navigate({ to: '/admin/users' as any })}
         >
@@ -211,7 +211,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'departments'
               ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
           }`}
           onClick={() => navigate({ to: '/admin/departments' as any })}
         >
@@ -223,7 +223,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'rooms'
               ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
           }`}
           onClick={() => navigate({ to: '/admin/rooms' as any })}
         >
@@ -235,7 +235,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           className={`px-4 py-2.5 rounded-sm text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'reports'
               ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 ring-2 ring-purple-600/30'
-              : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200/80 hover:text-slate-900'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
           }`}
           onClick={() => navigate({ to: '/admin/reports' as any })}
         >
