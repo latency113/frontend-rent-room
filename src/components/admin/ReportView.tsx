@@ -96,26 +96,6 @@ export const ReportView: React.FC<ReportViewProps> = ({ rooms }) => {
             สรุปข้อมูลสถิติ ค้นหา และวิเคราะห์การใช้งานห้องประชุมขององค์กร
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleExportCSV}
-            className="btn btn-secondary btn-sm flex items-center gap-1.5 cursor-pointer"
-            title="ดาวน์โหลดเป็นไฟล์ CSV"
-          >
-            <Download size={15} />
-            <span>ส่งออก CSV</span>
-          </button>
-          <button
-            type="button"
-            onClick={handlePrint}
-            className="btn btn-secondary btn-sm flex items-center gap-1.5 cursor-pointer"
-            title="พิมพ์หน้ารายงาน"
-          >
-            <Printer size={15} />
-            <span>พิมพ์รายงาน</span>
-          </button>
-        </div>
       </div>
 
       {/* KPI Stats Cards */}

@@ -18,7 +18,8 @@ export function formatThaiDate(dateStr: string): string {
   if (!dateStr) return '-';
   try {
     const [y, m, d] = dateStr.split('-');
-    const year = parseInt(y, 10) + 543;
+    const rawYear = parseInt(y, 10);
+    const year = rawYear > 2400 ? rawYear : rawYear + 543;
     const months = [
       'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
       'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'
